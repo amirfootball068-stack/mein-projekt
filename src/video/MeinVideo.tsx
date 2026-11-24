@@ -24,6 +24,7 @@ const GOLD = "#E8B04A";
 
 // ---- Stichworte (Sekunden, alle aus den Zeitstempeln) ----
 const C = {
+  bowl: wort("Açaí-Bowl"),
   ist: wort("ist", 1),
   dessert: wort("Dessert", 1),
   die: wort("Die"),
@@ -149,8 +150,21 @@ const Bowl: React.FC<{t: number}> = ({t}) => {
       </g>
     );
   }
+  // Bowl faellt ab Bild 1 ins Bild und landet auf „Açaí-Bowl“ (mit Stauchen und Spritzern)
+  const dy = fall(t, C.bowl, C.bowl, -400, 0);
+  const sq = federn(t, C.bowl, 0.4);
+  const spritzer: React.ReactNode[] = [];
+  if (t > C.bowl && t < C.bowl + 0.7) {
+    const p = (t - C.bowl) / 0.7;
+    [-1, -0.4, 0.5, 1].forEach((r, i) => {
+      const sx = BX + r * (70 + 230 * p);
+      const sy = surf - 20 - (520 + 80 * (i % 2)) * p + 640 * p * p;
+      spritzer.push(<circle key={`sp${i}`} cx={sx} cy={sy} r={12 - 1.5 * i} fill={ACAI} opacity={1 - p * p} />);
+    });
+  }
   return (
     <svg width={1} height={1} style={{position: "absolute", left: 0, top: 0, overflow: "visible"}}>
+      <g transform={`translate(0 ${dy}) translate(${BX} ${y}) scale(${1 + 0.1 * sq} ${1 - 0.14 * sq}) translate(${-BX} ${-y})`}>
       {/* Schale */}
       <path d={`M ${BX - 160} ${y - 120} Q ${BX - 150} ${y - 4} ${BX} ${y - 2} Q ${BX + 150} ${y - 4} ${BX + 160} ${y - 120} Z`} fill={FARBE.figur} style={leuchtFilter("rgba(242,242,240,0.35)", 16)} />
       {/* Fuellung */}
@@ -158,6 +172,8 @@ const Bowl: React.FC<{t: number}> = ({t}) => {
       <path d={`M ${BX - 148} ${y - 120} Q ${BX} ${surf - 34} ${BX + 148} ${y - 120} Q ${BX} ${y - 100} ${BX - 148} ${y - 120} Z`} fill={ACAI} />
       <ellipse cx={BX - 40} cy={surf - 6} rx={50} ry={7} fill={ACAI_HELL} opacity={0.6} />
       {teile}
+      </g>
+      {spritzer}
       {fahne}
     </svg>
   );
@@ -369,7 +385,7 @@ export const MeinVideo: React.FC = () => {
           </>
         ) : (
           <>
-            <Leuchten x={BX} y={OBERFLAECHE} r={300} staerke={0.07 + 0.08 * ein(t, C.honig, 0.6)} />
+            <Leuchten x={BX} y={OBERFLAECHE} r={300} staerke={(0.07 + 0.08 * ein(t, C.honig, 0.6)) * ein(t, C.bowl, 0.1) + 0.4 * ein(t, C.bowl, 0.05) * aus(t, C.bowl + 0.06, 0.5)} />
             <Bowl t={t} />
             <Beere t={t} />
             <SuesseMesser t={t} />

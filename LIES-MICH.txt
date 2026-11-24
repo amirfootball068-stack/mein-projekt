@@ -1,0 +1,19 @@
+WENDEPUNKT – Starter-Projekt
+===========================
+
+1. Ordner an einen festen Platz legen (z. B. Dokumente/WENDEPUNKT-Starter).
+2. Claude-App öffnen → Code → diesen Ordner auswählen.
+3. Schreiben: „Richte das Projekt ein und rendere das Testbild.“
+4. Siehst du in Ausgabe/testbild.mp4 die Figur unter dem Sternenhimmel, ist alles bereit.
+
+Voraussetzungen: Claude Pro (für den Bereich Code) und Node.js (LTS-Version von nodejs.org).
+
+Was drin ist:
+- src/video/MeinVideo.tsx   dein Video (Claude baut es mit dir)
+- src/beispiel/             das Beispielvideo „Ein Prozent am Tag“ aus dem Kurs
+- src/bausteine/            Figur (Platzhalter), Sternenhimmel, Kamera, Zähler, Münze, Geräusche
+- public/sounds/            Sound-Paket, 36 Geräusche, selbst erzeugt, frei verwendbar
+- CLAUDE.md                 Arbeitsregeln, an die sich Claude in diesem Ordner hält
+- stil.md                   dein Stil-Dokument (Lektion 2)
+
+Die Platzhalter-Figur ersetzt du durch deine eigene (Lektion 2).

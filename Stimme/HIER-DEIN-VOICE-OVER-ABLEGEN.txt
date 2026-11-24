@@ -1,0 +1,2 @@
+Leg hier dein gekürztes Voice-Over ab (mp3 oder wav) und schreib dann in Claude:
+„Erstelle die Wort-Zeitstempel für mein Voice-Over.“

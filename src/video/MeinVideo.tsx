@@ -199,16 +199,36 @@ const zuckerBerg = (t: number, bx: number, t0: number) => {
   return n;
 };
 
+/** Joghurt: dicker, fluessiger Strahl, der auf „Naturjoghurt“ auftrifft und zu einer welligen Lache zerlaeuft */
 const joghurt = (t: number, bx: number, t0: number) => {
-  if (t < t0 - 0.4) return [];
-  const yy = fall(t, t0, 0.4, surfY - 640, surfY - 18);
-  const platt = 1 + 0.5 * ein(t, t0, 0.25) - 0.25 * federn(t, t0, 0.4);
-  return [
-    <g key="jo" transform={`translate(${bx - 20} ${yy}) scale(${platt} ${1 / platt})`}>
-      <ellipse rx={62} ry={22} fill={FARBE.figur} style={leuchtFilter("rgba(242,242,240,0.4)", 10)} />
-      <path d="M -35 -4 Q 0 -22 35 -4" stroke="#DADAD6" strokeWidth={4} fill="none" />
-    </g>,
-  ];
+  const start = t0 - 0.2;
+  if (t < start) return [];
+  const n: React.ReactNode[] = [];
+  const cx = bx - 15;
+  const cy = surfY - 16;
+  // Strahl: trifft auf „Naturjoghurt“, reisst nach 0,7 s oben ab
+  const unten = interpolate(t, [start, t0], [cy - 650, cy], clamp);
+  const oben = interpolate(t, [t0 + 0.45, t0 + 0.8], [cy - 650, cy], clamp);
+  if (oben < unten - 2) {
+    const w = Math.sin(t * 7) * 6;
+    n.push(<path key="js" d={`M ${cx + 6} ${oben} C ${cx + 6 + w} ${oben + (unten - oben) * 0.4}, ${cx - w} ${oben + (unten - oben) * 0.7}, ${cx} ${unten}`} stroke={FARBE.figur} strokeWidth={22} fill="none" strokeLinecap="round" style={leuchtFilter("rgba(242,242,240,0.45)", 10)} />);
+  }
+  // Lache: waechst weich, Rand wellt sich leicht
+  const g = ein(t, t0, 1.0);
+  if (g > 0) {
+    const pkt: string[] = [];
+    const N = 28;
+    for (let k = 0; k <= N; k++) {
+      const a = (k / N) * Math.PI * 2;
+      const welle = 1 + 0.12 * Math.sin(a * 3 + 1.3) + 0.07 * Math.sin(a * 5 + t * 1.5);
+      pkt.push(`${(cx + Math.cos(a) * 100 * g * welle).toFixed(1)},${(cy + Math.sin(a) * 17 * g * welle).toFixed(1)}`);
+    }
+    n.push(<polygon key="jl" points={pkt.join(" ")} fill={FARBE.figur} style={leuchtFilter("rgba(242,242,240,0.35)", 8)} />);
+    // Marmorierung: violetter Schlieren und Glanz
+    n.push(<path key="jm" d={`M ${cx - 70 * g} ${cy + 2} Q ${cx - 20 * g} ${cy - 12 * g} ${cx + 10 * g} ${cy} T ${cx + 75 * g} ${cy - 2}`} stroke={ACAI_HELL} strokeWidth={4} fill="none" opacity={0.7 * g} strokeLinecap="round" />);
+    n.push(<ellipse key="jg" cx={cx - 30 * g} cy={cy - 6 * g} rx={22 * g} ry={4 * g} fill="#FFFFFF" opacity={0.9} />);
+  }
+  return n;
 };
 
 const beeren = (t: number, bx: number, t0: number) => {

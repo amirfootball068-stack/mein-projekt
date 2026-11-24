@@ -11,9 +11,9 @@ Farben: Weiß = Welt und Figur · Violett = Açaí · Gold = Zucker (auch die Sc
 | 2 | Die Beere selbst schmeckt kaum süß, eher erdig. | Eine einzelne Beere fällt langsam vor die Figur. Ein Messgerät „SÜSSE“ zeigt fast nichts | Beere fällt ab „Die“, landet auf „schmeckt“, Messgerät auf „kaum“, Figur kippt (Zweifel) auf „erdig“ | nah → halbnah |
 | 3 | Darum ist das Püree im Laden oft gesüßt. | Regal mit Schild „LADEN“ und einem Püree-Beutel. Zuckerwürfel fallen in den Beutel, Zähler „ZUCKER“ springt hoch | Schnitt auf „Darum“, Fahrt zum Beutel auf „Püree“, Zucker fällt auf „gesüßt“ | Totale → halbnah → nah |
 | 4 | Obendrauf Banane, Granola, Honig. | Zurück zur Bowl: Bananenscheiben, Granola und ein Honigfaden fallen hinein, der Zähler steigt bei jedem Topping | Schnitt auf „Obendrauf“, je ein Topping auf „Banane“, „Granola“, „Honig“ | halbnah → nah |
-| 5 | Am Ende löffelst du eine Schale voller Zucker. | (nächstes Stück) | | |
-| 6 | Besser ungesüßtes Püree, Naturjoghurt, frische Beeren. | (nächstes Stück) | | |
-| 7 | Frühstück oder Dessert? Was ist deine Bowl? | (nächstes Stück – letztes Bild = erstes Bild) | | |
+| 5 | Am Ende löffelst du eine Schale voller Zucker. | Ein Löffel taucht in die Bowl. Dann türmt sich ein Berg Zuckerwürfel auf, die Figur staucht zusammen, ihr Licht wird dunkler | Löffel taucht ein auf „löffelst“, Schnitt auf „Schale“, Zuckerberg auf „Zucker“ | nah → halbnah |
+| 6 | Besser ungesüßtes Püree, Naturjoghurt, frische Beeren. | Zucker und Toppings fliegen weg, der Zähler läuft auf 0. Ein Beutel „OHNE ZUCKER“ gießt Püree ein, Joghurt und Beeren fallen hinein, die Figur hüpft | Wegfliegen auf „Besser“, Gießen auf „Püree“, Joghurt landet auf „Naturjoghurt“, Beeren auf „Beeren“ | halbnah → nah → halbnah |
+| 7 | Frühstück oder Dessert? Was ist deine Bowl? | Zwei Bowls nebeneinander, die Figur in der Mitte: rechts „FRÜHSTÜCK“ (11 g), links „DESSERT“ (46 g). Zum Schluss steht die leere Bowl wieder da und springt hoch – genau dorthin, wo das Video beginnt | Fähnchen + Zähler auf „Frühstück“ und „Dessert“, Figur kippt fragend auf „deine“, Schnitt nach „Bowl“ | halbnah → nah → Startbild |
 
 Beispiel (aus „Ein Prozent am Tag“):
 

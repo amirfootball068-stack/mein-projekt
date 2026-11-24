@@ -10,12 +10,13 @@ import ZS from "./zeitstempel.json";
 
 /**
  * „Deine Açaí-Bowl ist ein Dessert“ – Szenenplan: src/video/szenenplan.md
- * Gebaut: Szene 1–4 (0 – 10,4 s). Rest folgt in den naechsten Stuecken.
+ * Szene 1–7 gebaut. Letztes Bild = erstes Bild (Bowl schwebt oben, faellt dann hinein).
  */
 
 const Z = ZS as Zeitstempel;
 export const MEIN_VIDEO_DAUER = Math.max(3, Z.dauer + 0.6);
-const {wort} = woerterVon(Z);
+const DAUER = MEIN_VIDEO_DAUER;
+const {wort, wortEnde} = woerterVon(Z);
 
 // Farben fuer dieses Video: Weiss = Welt, Violett = Açaí, Gold = Zucker
 const ACAI = "#7B4FC9";
@@ -40,7 +41,23 @@ const C = {
   granola: wort("Granola"),
   honig: wort("Honig"),
   am: wort("Am"),
+  loeffelst: wort("löffelst"),
+  schale: wort("Schale"),
+  zucker: wort("Zucker"),
+  besser: wort("Besser"),
+  ungesuesst: wort("ungesüßtes"),
+  pueree2: wort("Püree", 2),
+  joghurt: wort("Naturjoghurt"),
+  frische: wort("frische"),
+  beeren: wort("Beeren"),
+  fruehstueck: wort("Frühstück"),
+  dessert2: wort("Dessert", 2),
+  was: wort("Was"),
+  deine2: wort("deine", 2),
+  bowl2: wort("Bowl"),
+  schleife: wortEnde("Bowl") + 0.1, // Schnitt zurueck zum Startbild
 };
+const ABSPRUNG = DAUER - C.bowl; // Bowl springt hoch und haengt im letzten Bild genau wie im ersten
 
 // ---- Welt ----
 const BODEN = 1500;
@@ -49,11 +66,15 @@ const BX = 720; // Bowl
 const BEERE_X = 270;
 const SX = 2400; // Laden (weiter rechts in der Welt)
 const REGAL_Y = 1380;
-const OBERFLAECHE = BODEN - 132; // Oberseite der Bowl-Fuellung
+const VX = 3600; // Vergleich: zwei Bowls
+const VL = VX - 230; // Dessert-Bowl
+const VR = VX + 230; // Fruehstuecks-Bowl
+const surfY = BODEN - 132; // Oberseite der Bowl-Fuellung
 
 // Kamera-Tabelle: [Sekunde, Zoom, x, y]
+const START: KameraZeile = [0, 2.1, BX + 40, 1420];
 const KAMERA: KameraZeile[] = [
-  [0, 2.1, BX + 40, 1420], // nah: Bowl
+  START, // nah: Bowl faellt herein
   [C.ist - 0.1, 2.1, BX + 40, 1420],
   [C.ist + 0.5, 1.3, 600, 1340], // halbnah: Figur + Bowl
   [C.die - 0.01, 1.3, 600, 1340],
@@ -71,7 +92,26 @@ const KAMERA: KameraZeile[] = [
   [C.granola - 0.2, 1.45, 640, 1320],
   [C.honig - 0.1, 1.5, 660, 1330],
   [C.honig + 0.4, 2.1, BX, 1400], // nah: Honig
-  [MEIN_VIDEO_DAUER, 2.1, BX, 1400],
+  [C.loeffelst - 0.1, 2.1, BX, 1400],
+  [C.loeffelst + 0.4, 1.6, BX, 1280], // halbnah: Loeffel
+  [C.schale - 0.01, 1.6, BX, 1280],
+  [C.schale, 1.25, 600, 1290], // Schnitt, halbnah: Figur, Bowl, Zaehler
+  [C.zucker - 0.1, 1.3, 600, 1290],
+  [C.zucker + 0.3, 1.5, 620, 1290], // Zuckerberg
+  [C.besser - 0.05, 1.5, 620, 1290],
+  [C.besser + 0.4, 1.3, 620, 1260], // alles fliegt weg
+  [C.ungesuesst + 0.5, 1.6, BX, 1220], // halbnah: Beutel giesst
+  [C.joghurt - 0.1, 1.6, BX, 1220],
+  [C.joghurt + 0.4, 2.0, BX, 1360], // nah: Joghurt
+  [C.frische, 2.0, BX, 1360],
+  [C.beeren + 0.3, 1.3, 600, 1300], // halbnah: Figur hüpft
+  [C.fruehstueck - 0.01, 1.3, 600, 1300],
+  [C.fruehstueck, 1.25, VX, 1250], // Schnitt: zwei Bowls
+  [C.was - 0.05, 1.32, VX, 1250],
+  [C.was + 0.5, 1.55, VX, 1300], // naeher: Figur fragt
+  [C.schleife - 0.01, 1.6, VX, 1300],
+  [C.schleife, START[1], START[2], START[3]], // Schnitt: Startbild
+  [DAUER, START[1], START[2], START[3]],
 ];
 
 /** Fall mit Schwerkraft: landet genau bei `landet` */
@@ -85,72 +125,203 @@ const federn = (t: number, t0: number, d = 0.35) => {
   const p = (t - t0) / d;
   return Math.sin(p * Math.PI) * (1 - p);
 };
-
 const leuchtFilter = (farbe: string, r = 14) => ({filter: `drop-shadow(0 0 ${r}px ${farbe})`});
+const IMMER = 1e6; // „schon lange gelandet“
 
-// ---------- Bowl ----------
-const Bowl: React.FC<{t: number}> = ({t}) => {
-  const y = BODEN;
-  const surf = OBERFLAECHE;
-  // Toppings
-  const teile: React.ReactNode[] = [];
-  // Banane: 5 Scheiben, die erste landet genau auf „Banane“
+// ---------- Inhalte der Bowl (Weltkoordinaten) ----------
+const bananen = (t: number, bx: number, t0: number) => {
+  const n: React.ReactNode[] = [];
   for (let i = 0; i < 5; i++) {
-    const landet = C.banane + i * 0.07;
+    const landet = t0 + i * 0.07;
     if (t < landet - 0.45) continue;
-    const zx = BX - 90 + i * 45 + (zufall(i) - 0.5) * 14;
-    const zy = surf - 6 + (i % 2) * 8;
+    const zx = bx - 90 + i * 45 + (zufall(i) - 0.5) * 14;
+    const zy = surfY - 6 + (i % 2) * 8;
     const yy = fall(t, landet, 0.45, zy - 620, zy) - 14 * federn(t, landet, 0.3);
-    teile.push(
+    n.push(
       <g key={`b${i}`} transform={`translate(${zx} ${yy}) rotate(${(zufall(i + 3) - 0.5) * 30})`}>
         <ellipse rx={21} ry={11} fill="#F4EBC6" />
         <ellipse rx={8} ry={4} fill="#D9CC98" />
       </g>,
     );
   }
-  // Granola: 16 Brocken
+  return n;
+};
+
+const granola = (t: number, bx: number, t0: number) => {
+  const n: React.ReactNode[] = [];
   for (let i = 0; i < 16; i++) {
-    const landet = C.granola + (i / 15) * 0.4;
+    const landet = t0 + (i / 15) * 0.4;
     if (t < landet - 0.4) continue;
     const a = zufall(i + 20) * Math.PI * 2;
     const r = Math.sqrt(zufall(i + 40));
-    const zx = BX + Math.cos(a) * 115 * r;
-    const zy = surf - 14 + Math.sin(a) * 14 * r;
+    const zx = bx + Math.cos(a) * 115 * r;
+    const zy = surfY - 14 + Math.sin(a) * 14 * r;
     const yy = fall(t, landet, 0.4, zy - 560, zy);
     const s = 6 + zufall(i + 60) * 5;
-    teile.push(<rect key={`g${i}`} x={zx - s} y={yy - s * 0.7} width={2 * s} height={1.4 * s} rx={3} fill="#C99A5B" transform={`rotate(${zufall(i) * 90} ${zx} ${yy})`} />);
+    n.push(<rect key={`g${i}`} x={zx - s} y={yy - s * 0.7} width={2 * s} height={1.4 * s} rx={3} fill="#C99A5B" transform={`rotate(${zufall(i) * 90} ${zx} ${yy})`} />);
   }
-  // Honig: Faden von oben, dann Lache
-  const honigStart = C.honig - 0.25;
-  if (t > honigStart) {
-    const unten = interpolate(t, [honigStart, C.honig], [surf - 700, surf - 18], clamp);
-    const oben = interpolate(t, [C.honig + 0.5, C.honig + 0.9], [surf - 700, surf - 18], clamp);
-    const wackeln = Math.sin(t * 9) * 4;
-    if (oben < unten - 2)
-      teile.push(<path key="hf" d={`M ${BX + 10} ${oben} Q ${BX + 10 + wackeln} ${(oben + unten) / 2} ${BX} ${unten}`} stroke={GOLD} strokeWidth={7} fill="none" strokeLinecap="round" style={leuchtFilter("rgba(232,176,74,0.7)", 10)} />);
-    const lache = ein(t, C.honig, 0.9);
-    if (lache > 0) {
-      teile.push(<ellipse key="hl" cx={BX} cy={surf - 16} rx={90 * lache} ry={12 * lache} fill={GOLD} opacity={0.9} style={leuchtFilter("rgba(232,176,74,0.6)", 12)} />);
-      teile.push(<path key="hs" d={`M ${BX - 60 * lache} ${surf - 16} Q ${BX} ${surf - 30} ${BX + 60 * lache} ${surf - 14}`} stroke="#F6D58E" strokeWidth={4} fill="none" opacity={0.8 * lache} />);
+  return n;
+};
+
+const honig = (t: number, bx: number, t0: number) => {
+  const n: React.ReactNode[] = [];
+  const start = t0 - 0.25;
+  if (t <= start) return n;
+  const unten = interpolate(t, [start, t0], [surfY - 700, surfY - 18], clamp);
+  const oben = interpolate(t, [t0 + 0.5, t0 + 0.9], [surfY - 700, surfY - 18], clamp);
+  const wackeln = Math.sin(t * 9) * 4;
+  if (oben < unten - 2)
+    n.push(<path key="hf" d={`M ${bx + 10} ${oben} Q ${bx + 10 + wackeln} ${(oben + unten) / 2} ${bx} ${unten}`} stroke={GOLD} strokeWidth={7} fill="none" strokeLinecap="round" style={leuchtFilter("rgba(232,176,74,0.7)", 10)} />);
+  const lache = ein(t, t0, 0.9);
+  if (lache > 0) {
+    n.push(<ellipse key="hl" cx={bx} cy={surfY - 16} rx={90 * lache} ry={12 * lache} fill={GOLD} opacity={0.9} style={leuchtFilter("rgba(232,176,74,0.6)", 12)} />);
+    n.push(<path key="hs" d={`M ${bx - 60 * lache} ${surfY - 16} Q ${bx} ${surfY - 30} ${bx + 60 * lache} ${surfY - 14}`} stroke="#F6D58E" strokeWidth={4} fill="none" opacity={0.8 * lache} />);
+  }
+  return n;
+};
+
+/** Berg aus Zuckerwuerfeln, der sich auf „Zucker“ auftuermt */
+const zuckerBerg = (t: number, bx: number, t0: number) => {
+  const n: React.ReactNode[] = [];
+  const reihen = [5, 4, 3, 2, 1];
+  const s = 34;
+  let k = 0;
+  reihen.forEach((anz, r) => {
+    for (let i = 0; i < anz; i++, k++) {
+      const landet = t0 + k * 0.025;
+      if (t < landet - 0.25) continue;
+      const x = bx + (i - (anz - 1) / 2) * (s + 4);
+      const y = surfY - 30 - r * (s + 2);
+      const yy = fall(t, landet, 0.25, y - 400, y);
+      n.push(<rect key={`z${k}`} x={x - s / 2} y={yy - s / 2} width={s} height={s} rx={4} fill={FARBE.figur} stroke="rgba(0,0,0,0.15)" strokeWidth={2} style={leuchtFilter("rgba(232,176,74,0.55)", 10)} />);
     }
-  }
-  // Faehnchen „DESSERT“: faellt hinein und steckt auf „Dessert“
-  const fahneT = C.dessert;
-  let fahne: React.ReactNode = null;
-  if (t > fahneT - 0.35) {
-    const yy = fall(t, fahneT, 0.35, surf - 700, surf - 20);
-    const wippen = 8 * federn(t, fahneT, 0.5);
-    fahne = (
-      <g transform={`translate(${BX + 70} ${yy}) rotate(${8 + wippen})`}>
-        <rect x={-2.5} y={-170} width={5} height={180} fill={FARBE.figur} rx={2} />
-        <rect x={2} y={-170} width={132} height={44} rx={4} fill={FARBE.figur} style={leuchtFilter("rgba(242,242,240,0.35)")} />
-        <text x={68} y={-140} textAnchor="middle" fontFamily={MONO} fontSize={21} letterSpacing={3} fill="#111">
-          DESSERT
+  });
+  return n;
+};
+
+const joghurt = (t: number, bx: number, t0: number) => {
+  if (t < t0 - 0.4) return [];
+  const yy = fall(t, t0, 0.4, surfY - 640, surfY - 18);
+  const platt = 1 + 0.5 * ein(t, t0, 0.25) - 0.25 * federn(t, t0, 0.4);
+  return [
+    <g key="jo" transform={`translate(${bx - 20} ${yy}) scale(${platt} ${1 / platt})`}>
+      <ellipse rx={62} ry={22} fill={FARBE.figur} style={leuchtFilter("rgba(242,242,240,0.4)", 10)} />
+      <path d="M -35 -4 Q 0 -22 35 -4" stroke="#DADAD6" strokeWidth={4} fill="none" />
+    </g>,
+  ];
+};
+
+const beeren = (t: number, bx: number, t0: number) => {
+  const n: React.ReactNode[] = [];
+  const orte = [-95, -60, 40, 75, 105, 10];
+  orte.forEach((dx, i) => {
+    const landet = t0 + i * 0.06;
+    if (t < landet - 0.4) return;
+    const zy = surfY - 18 + (i % 2) * 8;
+    const yy = fall(t, landet, 0.4, zy - 600, zy) - 16 * federn(t, landet, 0.3);
+    n.push(
+      <g key={`be${i}`}>
+        <circle cx={bx + dx} cy={yy} r={15} fill={i % 3 === 2 ? ACAI_HELL : ACAI} style={leuchtFilter("rgba(156,116,224,0.5)", 8)} />
+        <circle cx={bx + dx - 5} cy={yy - 5} r={4} fill="#FFFFFF" opacity={0.35} />
+      </g>,
+    );
+  });
+  return n;
+};
+
+/** Faehnchen mit Aufschrift, faellt hinein und steckt auf t0 */
+const fahne = (t: number, bx: number, t0: number, text: string, farbe = FARBE.figur) => {
+  if (t < t0 - 0.35) return null;
+  const yy = fall(t, t0, 0.35, surfY - 700, surfY - 20);
+  const wippen = 8 * federn(t, t0, 0.5);
+  const b = text.length * 15 + 26;
+  return (
+    <g key={`f${text}`} transform={`translate(${bx + 70} ${yy}) rotate(${8 + wippen})`}>
+      <rect x={-2.5} y={-170} width={5} height={180} fill={FARBE.figur} rx={2} />
+      <rect x={2} y={-170} width={b} height={44} rx={4} fill={farbe} style={leuchtFilter("rgba(242,242,240,0.35)")} />
+      <text x={2 + b / 2} y={-140} textAnchor="middle" fontFamily={MONO} fontSize={21} letterSpacing={3} fill="#111">
+        {text}
+      </text>
+    </g>
+  );
+};
+
+/** Loeffel: taucht auf „löffelst“ ein und hebt eine Ladung heraus */
+const loeffel = (t: number, bx: number, t0: number) => {
+  if (t < t0 - 0.4 || t > t0 + 1.2) return null;
+  const rein = interpolate(t, [t0 - 0.4, t0], [0, 1], clamp);
+  const raus = interpolate(t, [t0 + 0.35, t0 + 1.1], [0, 1], clamp);
+  const x = bx + 40 + 260 * (1 - rein) * (1 - rein) + 200 * raus * raus;
+  const y = surfY - 20 - 520 * (1 - rein) * (1 - rein) - 640 * raus * raus;
+  const dreh = -35 + 20 * rein - 25 * raus;
+  return (
+    <g key="loeffel" transform={`translate(${x} ${y}) rotate(${dreh})`}>
+      <rect x={20} y={-6} width={230} height={12} rx={6} fill={FARBE.figur} style={leuchtFilter("rgba(242,242,240,0.35)")} />
+      <ellipse cx={0} cy={0} rx={38} ry={24} fill={FARBE.figur} />
+      {raus > 0 ? (
+        <>
+          <ellipse cx={0} cy={-6} rx={30} ry={14} fill={ACAI} />
+          <rect x={-10} y={-26} width={16} height={16} rx={2} fill={FARBE.figur} />
+          <circle cx={14} cy={-14} r={6} fill={GOLD} />
+        </>
+      ) : null}
+    </g>
+  );
+};
+
+/** Beutel „OHNE ZUCKER“ erscheint auf „ungesüßtes“ und giesst auf „Püree“ */
+const beutelGiesst = (t: number, bx: number) => {
+  const auf = ein(t, C.ungesuesst - 0.1, 0.35) * aus(t, C.joghurt - 0.35, 0.3);
+  if (auf <= 0) return null;
+  const kipp = -100 * ein(t, C.pueree2 - 0.3, 0.3);
+  const px = bx + 150;
+  const py = surfY - 360 - 300 * (1 - auf);
+  const strahl = t > C.pueree2 - 0.05 && t < C.joghurt - 0.3;
+  const sEnde = interpolate(t, [C.pueree2 - 0.05, C.pueree2 + 0.15], [py, surfY - 20], clamp);
+  return (
+    <g key="beutel" opacity={auf}>
+      {strahl ? <path d={`M ${px - 70} ${py - 10} Q ${bx + 20} ${py + 30} ${bx + 10} ${sEnde}`} stroke={ACAI} strokeWidth={16} fill="none" strokeLinecap="round" /> : null}
+      <g transform={`translate(${px} ${py}) rotate(${kipp})`}>
+        <path d="M -60 90 L -54 -80 L 54 -80 L 60 90 Z" fill={FARBE.figur} style={leuchtFilter("rgba(242,242,240,0.35)", 14)} />
+        <rect x={-56} y={-20} width={112} height={52} fill={ACAI} />
+        <text x={0} y={2} textAnchor="middle" fontFamily={MONO} fontSize={19} letterSpacing={2} fill={FARBE.figur}>
+          AÇAÍ
+        </text>
+        <text x={0} y={24} textAnchor="middle" fontFamily={MONO} fontSize={12} letterSpacing={1} fill={FARBE.figur}>
+          OHNE ZUCKER
         </text>
       </g>
-    );
+    </g>
+  );
+};
+
+// ---------- Schale ----------
+const Schale: React.FC<{bx: number; dy?: number; sq?: number; children?: React.ReactNode; vorne?: React.ReactNode}> = ({bx, dy = 0, sq = 0, children, vorne}) => {
+  const y = BODEN;
+  return (
+    <svg width={1} height={1} style={{position: "absolute", left: 0, top: 0, overflow: "visible"}}>
+      <g transform={`translate(0 ${dy}) translate(${bx} ${y}) scale(${1 + 0.1 * sq} ${1 - 0.14 * sq}) translate(${-bx} ${-y})`}>
+        <path d={`M ${bx - 160} ${y - 120} Q ${bx - 150} ${y - 4} ${bx} ${y - 2} Q ${bx + 150} ${y - 4} ${bx + 160} ${y - 120} Z`} fill={FARBE.figur} style={leuchtFilter("rgba(242,242,240,0.35)", 16)} />
+        <ellipse cx={bx} cy={y - 120} rx={160} ry={24} fill={FARBE.figur} />
+        <path d={`M ${bx - 148} ${y - 120} Q ${bx} ${surfY - 34} ${bx + 148} ${y - 120} Q ${bx} ${y - 100} ${bx - 148} ${y - 120} Z`} fill={ACAI} />
+        <ellipse cx={bx - 40} cy={surfY - 6} rx={50} ry={7} fill={ACAI_HELL} opacity={0.6} />
+        {children}
+      </g>
+      {vorne}
+    </svg>
+  );
+};
+
+/** Haupt-Bowl in Szene 1, 2, 4, 5, 6 und im Schlussbild */
+const HauptBowl: React.FC<{t: number}> = ({t}) => {
+  // Ende (Schleife): steht leer da, springt hoch und haengt im letzten Bild wie im ersten
+  if (t >= C.schleife) {
+    const p = interpolate(t, [ABSPRUNG, DAUER], [0, 1], clamp);
+    const dy = -400 * (1 - (1 - p) * (1 - p));
+    const sq = t < ABSPRUNG ? 0.6 * ein(t, ABSPRUNG - 0.3, 0.3) : 0;
+    return <Schale bx={BX} dy={dy} sq={sq} />;
   }
-  // Bowl faellt ab Bild 1 ins Bild und landet auf „Açaí-Bowl“ (mit Stauchen und Spritzern)
+  // Anfang: faellt ab Bild 1 herein, landet auf „Açaí-Bowl“
   const dy = fall(t, C.bowl, C.bowl, -400, 0);
   const sq = federn(t, C.bowl, 0.4);
   const spritzer: React.ReactNode[] = [];
@@ -158,24 +329,43 @@ const Bowl: React.FC<{t: number}> = ({t}) => {
     const p = (t - C.bowl) / 0.7;
     [-1, -0.4, 0.5, 1].forEach((r, i) => {
       const sx = BX + r * (70 + 230 * p);
-      const sy = surf - 20 - (520 + 80 * (i % 2)) * p + 640 * p * p;
+      const sy = surfY - 20 - (520 + 80 * (i % 2)) * p + 640 * p * p;
       spritzer.push(<circle key={`sp${i}`} cx={sx} cy={sy} r={12 - 1.5 * i} fill={ACAI} opacity={1 - p * p} />);
     });
   }
-  return (
-    <svg width={1} height={1} style={{position: "absolute", left: 0, top: 0, overflow: "visible"}}>
-      <g transform={`translate(0 ${dy}) translate(${BX} ${y}) scale(${1 + 0.1 * sq} ${1 - 0.14 * sq}) translate(${-BX} ${-y})`}>
-      {/* Schale */}
-      <path d={`M ${BX - 160} ${y - 120} Q ${BX - 150} ${y - 4} ${BX} ${y - 2} Q ${BX + 150} ${y - 4} ${BX + 160} ${y - 120} Z`} fill={FARBE.figur} style={leuchtFilter("rgba(242,242,240,0.35)", 16)} />
-      {/* Fuellung */}
-      <ellipse cx={BX} cy={y - 120} rx={160} ry={24} fill={FARBE.figur} />
-      <path d={`M ${BX - 148} ${y - 120} Q ${BX} ${surf - 34} ${BX + 148} ${y - 120} Q ${BX} ${y - 100} ${BX - 148} ${y - 120} Z`} fill={ACAI} />
-      <ellipse cx={BX - 40} cy={surf - 6} rx={50} ry={7} fill={ACAI_HELL} opacity={0.6} />
-      {teile}
+  // Szene 6: alles Alte fliegt auf „Besser“ nach oben weg
+  const weg = interpolate(t, [C.besser, C.besser + 0.45], [0, 1], clamp);
+  const alt =
+    weg < 1 ? (
+      <g key="alt" transform={`translate(0 ${-900 * weg * weg})`} opacity={1 - weg}>
+        {bananen(t, BX, C.banane)}
+        {granola(t, BX, C.granola)}
+        {honig(t, BX, C.honig)}
+        {t > C.zucker - 0.3 ? zuckerBerg(t, BX, C.zucker) : null}
+        {fahne(t, BX, C.dessert, "DESSERT")}
       </g>
-      {spritzer}
-      {fahne}
-    </svg>
+    ) : null;
+  return (
+    <Schale
+      bx={BX}
+      dy={dy}
+      sq={sq}
+      vorne={
+        <>
+          {spritzer}
+          {loeffel(t, BX, C.loeffelst)}
+          {beutelGiesst(t, BX)}
+        </>
+      }
+    >
+      {alt}
+      {t > C.besser ? (
+        <>
+          {joghurt(t, BX, C.joghurt)}
+          {beeren(t, BX, C.beeren)}
+        </>
+      ) : null}
+    </Schale>
   );
 };
 
@@ -249,7 +439,6 @@ const Laden: React.FC<{t: number}> = ({t}) => {
   const andere = [-220, -130, 130, 220];
   return (
     <>
-      {/* Schild */}
       <div
         style={{
           position: "absolute",
@@ -270,12 +459,10 @@ const Laden: React.FC<{t: number}> = ({t}) => {
         LADEN
       </div>
       <svg width={1} height={1} style={{position: "absolute", left: 0, top: 0, overflow: "visible"}}>
-        {/* Regal */}
         <rect x={SX - regalB / 2} y={REGAL_Y} width={regalB} height={8} rx={3} fill={FARBE.figur} opacity={0.85} />
         <rect x={SX - regalB / 2} y={1100} width={regalB} height={8} rx={3} fill={FARBE.figur} opacity={0.5} />
         <rect x={SX - regalB / 2} y={1100} width={6} height={BODEN - 1100} fill={FARBE.figur} opacity={0.4} />
         <rect x={SX + regalB / 2 - 6} y={1100} width={6} height={BODEN - 1100} fill={FARBE.figur} opacity={0.4} />
-        {/* andere Produkte, nur Umrisse */}
         {andere.map((dx, i) => (
           <rect key={i} x={SX + dx - 34} y={REGAL_Y - 120 - (i % 2) * 30} width={68} height={120 + (i % 2) * 30} rx={8} fill="none" stroke={FARBE.linie} strokeWidth={2} />
         ))}
@@ -283,7 +470,6 @@ const Laden: React.FC<{t: number}> = ({t}) => {
           <rect key={`o${i}`} x={SX + dx - 40} y={1100 - 110} width={80} height={110} rx={8} fill="none" stroke={FARBE.linie} strokeWidth={2} />
         ))}
         {wuerfel}
-        {/* Pueree-Beutel */}
         <g transform={`translate(0 ${-beben})`}>
           <path d={`M ${SX - beutelB / 2} ${by} L ${SX - beutelB / 2 + 6} ${top + 20} L ${SX + beutelB / 2 - 6} ${top + 20} L ${SX + beutelB / 2} ${by} Z`} fill={FARBE.figur} style={leuchtFilter("rgba(242,242,240,0.35)", 16)} />
           <rect x={SX - beutelB / 2 + 6} y={top} width={beutelB - 12} height={24} rx={4} fill={FARBE.figur} />
@@ -301,21 +487,34 @@ const Laden: React.FC<{t: number}> = ({t}) => {
 };
 
 // ---------- Zucker-Zaehler ----------
-// grobe Richtwerte (Gramm Zucker): gesuesstes Pueree, Banane, Granola, Honig
-const ZUCKER: [number, number][] = [
-  [C.gesuesst + 0.1, 12],
+// grobe Richtwerte (Gramm Zucker)
+const ZUCKER_DESSERT: [number, number][] = [
+  [C.gesuesst + 0.1, 12], // gesuesstes Pueree
   [C.banane + 0.05, 9],
   [C.granola + 0.05, 8],
   [C.honig + 0.1, 17],
 ];
-const zuckerBei = (t: number) => {
+const ZUCKER_FRUEHSTUECK: [number, number][] = [
+  [C.pueree2 + 0.1, 2], // ungesuesstes Pueree
+  [C.joghurt + 0.05, 5],
+  [C.beeren + 0.1, 4],
+];
+const summe = (liste: [number, number][]) => liste.reduce((s, [, g]) => s + g, 0);
+const DESSERT_G = summe(ZUCKER_DESSERT);
+const FRUEHSTUECK_G = summe(ZUCKER_FRUEHSTUECK);
+const zaehle = (t: number, liste: [number, number][]) => {
   let g = 0;
-  for (const [t0, plus] of ZUCKER) g += plus * interpolate(t, [t0, t0 + 0.35], [0, 1], clamp);
-  return Math.round(g);
+  for (const [t0, plus] of liste) g += plus * interpolate(t, [t0, t0 + 0.35], [0, 1], clamp);
+  return g;
+};
+const zuckerBei = (t: number) => {
+  const runter = interpolate(t, [C.besser + 0.05, C.besser + 0.6], [1, 0], clamp);
+  return Math.round(zaehle(t, ZUCKER_DESSERT) * runter + (t > C.besser ? zaehle(t, ZUCKER_FRUEHSTUECK) : 0));
 };
 
 // ---------- Untertitel: Wort fuer Wort ----------
-const SCHLUESSEL = ["dessert", "süß", "gesüßt", "honig", "zucker"];
+const ZUCKER_WOERTER = ["dessert", "süß", "gesüßt", "honig", "zucker"]; // Gold
+const GUT_WOERTER = ["ungesüßtes", "frühstück"]; // Violett
 const ohneZeichen = (s: string) => s.replace(/[.,!?;:]/g, "");
 
 const Untertitel: React.FC<{t: number}> = ({t}) => {
@@ -328,7 +527,8 @@ const Untertitel: React.FC<{t: number}> = ({t}) => {
   const ende = naechstes - x.bis > 0.4 ? x.bis + 0.3 : naechstes;
   if (t >= ende) return null;
   const text = ohneZeichen(x.wort);
-  const farbig = SCHLUESSEL.includes(text.toLowerCase());
+  const klein = text.toLowerCase();
+  const farbe = GUT_WOERTER.includes(klein) ? ACAI_HELL : ZUCKER_WOERTER.includes(klein) ? GOLD : FARBE.figur;
   const pop = ein(t, x.von, 0.14);
   return (
     <div
@@ -342,9 +542,9 @@ const Untertitel: React.FC<{t: number}> = ({t}) => {
         fontFamily: SCHRIFT,
         fontWeight: 700,
         fontSize: 96,
-        color: farbig ? GOLD : FARBE.figur,
+        color: farbe,
         textShadow: "0 6px 30px rgba(0,0,0,0.9), 0 0 4px rgba(0,0,0,0.8)",
-        opacity: 0.4 + 0.6 * pop,
+        opacity: pop,
       }}
     >
       {text}
@@ -359,17 +559,35 @@ export const MeinVideo: React.FC = () => {
   const kam = kameraBei(t, KAMERA);
 
   const imLaden = t >= C.darum && t < C.oben;
+  const imVergleich = t >= C.fruehstueck && t < C.schleife;
 
-  // Figur: schaut zur Bowl, dann zur Beere; beugt sich zum Probieren, kippt bei „erdig“ (Zweifel)
+  // Figur bei der Bowl
   const zurBeere = ein(t, C.beere, 0.3) * aus(t, C.darum, 0.1);
   const probieren = ein(t, C.schmeckt, 0.35) * aus(t, C.erdig - 0.1, 0.3);
   const zweifel = ein(t, C.erdig, 0.35) * aus(t, C.darum, 0.1);
-  const druck = ein(t, C.honig + 0.2, 0.5);
+  const erleichtert = aus(t, C.besser, 0.4);
+  const druck = Math.max(0.25 * ein(t, C.honig + 0.2, 0.5), 0.6 * ein(t, C.zucker, 0.3)) * erleichtert;
+  const licht = 1 - 0.6 * ein(t, C.zucker, 0.4) * erleichtert;
+  const freude = Math.max(0, Math.sin(Math.min(1, Math.max(0, (t - C.beeren - 0.1) / 0.45)) * Math.PI));
   const blick = t < C.beere ? 0.6 : t < C.oben ? -0.9 * zurBeere : 0.7;
 
   const zZ = ein(t, C.gesuesst, 0.3);
   const zuckerZaehler = (x: number, y: number, o: number) =>
-    o > 0 ? <Zaehler key={`z${x}`} x={x} y={y} oben="ZUCKER" unten={`${zuckerBei(t)} g`} deckkraft={o} skala={1.6 + 0.15 * federn(t, C.gesuesst + 0.1, 0.4)} /> : null;
+    o > 0 ? (
+      <Zaehler
+        key={`z${x}`}
+        x={x}
+        y={y}
+        oben="ZUCKER"
+        unten={`${zuckerBei(t)} g`}
+        deckkraft={o}
+        skala={1.6 + 0.15 * federn(t, C.gesuesst + 0.1, 0.4) + 0.25 * federn(t, C.zucker, 0.5)}
+      />
+    ) : null;
+
+  // Figur im Vergleich: schaut nach rechts (Fruehstueck), links (Dessert), dann fragend
+  const vBlick = 0.8 * ein(t, C.fruehstueck, 0.25) - 1.6 * ein(t, C.dessert2, 0.25) + 0.8 * ein(t, C.was, 0.3);
+  const vKippen = -8 * ein(t, C.deine2, 0.25) + 16 * ein(t, C.bowl2, 0.25);
 
   return (
     <AbsoluteFill style={{background: FARBE.hintergrund}}>
@@ -383,17 +601,41 @@ export const MeinVideo: React.FC = () => {
             <Laden t={t} />
             {zuckerZaehler(SX + 200, 1050, zZ)}
           </>
+        ) : imVergleich ? (
+          <>
+            <Leuchten x={VL} y={surfY} r={260} staerke={0.1} />
+            <Leuchten x={VR} y={surfY} r={260} staerke={0.1} />
+            <Schale bx={VL} vorne={fahne(t, VL, C.dessert2, "DESSERT", GOLD)}>
+              {bananen(IMMER, VL, 0)}
+              {granola(IMMER, VL, 0)}
+              {honig(IMMER, VL, 0)}
+              {zuckerBerg(IMMER, VL, 0)}
+            </Schale>
+            <Schale bx={VR} vorne={fahne(t, VR, C.fruehstueck, "FRÜHSTÜCK", ACAI_HELL)}>
+              {joghurt(IMMER, VR, 0)}
+              {beeren(IMMER, VR, 0)}
+            </Schale>
+            <Figur x={VX} y={BODEN} t={t} hoehe={170} blick={vBlick} kippen={vKippen} />
+            <Zaehler x={VR} y={1010} oben="ZUCKER" unten={`${FRUEHSTUECK_G} g`} skala={1.3 + 0.2 * federn(t, C.fruehstueck, 0.4)} deckkraft={ein(t, C.fruehstueck, 0.2)} />
+            <Zaehler x={VL} y={1010} oben="ZUCKER" unten={`${DESSERT_G} g`} skala={1.3 + 0.2 * federn(t, C.dessert2, 0.4)} deckkraft={ein(t, C.dessert2, 0.2)} />
+          </>
         ) : (
           <>
-            <Leuchten x={BX} y={OBERFLAECHE} r={300} staerke={(0.07 + 0.08 * ein(t, C.honig, 0.6)) * ein(t, C.bowl, 0.1) + 0.4 * ein(t, C.bowl, 0.05) * aus(t, C.bowl + 0.06, 0.5)} />
-            <Bowl t={t} />
+            <Leuchten
+              x={BX}
+              y={surfY}
+              r={300}
+              staerke={(0.07 + 0.08 * ein(t, C.honig, 0.6)) * ein(t, C.bowl, 0.1) * aus(t, ABSPRUNG - 0.3, 0.5) + 0.4 * ein(t, C.bowl, 0.05) * aus(t, C.bowl + 0.06, 0.5)}
+            />
+            <HauptBowl t={t} />
             <Beere t={t} />
             <SuesseMesser t={t} />
-            <Figur x={FX} y={BODEN} t={t} blick={blick} kippen={-7 * probieren + 10 * zweifel} stauchen={0.25 * druck} />
-            {t >= C.oben ? zuckerZaehler(FX, 1150, 1) : null}
+            <Figur x={FX} y={BODEN} t={t} blick={blick} licht={licht} huepfen={freude * 60} kippen={-7 * probieren + 10 * zweifel} stauchen={druck} />
           </>
         )}
       </Welt>
+      {/* Zucker-Zaehler an der Bowl: fest oben im Bild, damit er bei jeder Einstellung lesbar bleibt */}
+      {!imLaden && !imVergleich && t >= C.oben && t < C.schleife ? zuckerZaehler(540, 330, 1) : null}
       <Untertitel t={t} />
       {Z.datei ? <Audio src={staticFile(Z.datei)} /> : null}
     </AbsoluteFill>

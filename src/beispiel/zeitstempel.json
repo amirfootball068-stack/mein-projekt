@@ -1,0 +1,266 @@
+{
+"datei": "beispiel/stimme.wav",
+"dauer": 21.148,
+"woerter": [
+{
+"wort": "Ein",
+"von": 0.0,
+"bis": 0.248
+},
+{
+"wort": "Prozent.",
+"von": 0.248,
+"bis": 0.8
+},
+{
+"wort": "Mehr",
+"von": 0.8,
+"bis": 1.104
+},
+{
+"wort": "nicht.",
+"von": 1.104,
+"bis": 1.463
+},
+{
+"wort": "Jeden",
+"von": 1.463,
+"bis": 1.904
+},
+{
+"wort": "Tag",
+"von": 1.904,
+"bis": 2.153
+},
+{
+"wort": "ein",
+"von": 2.153,
+"bis": 2.401
+},
+{
+"wort": "Prozent",
+"von": 2.401,
+"bis": 2.953
+},
+{
+"wort": "besser.",
+"von": 2.953,
+"bis": 3.45
+},
+{
+"wort": "Klingt",
+"von": 3.86,
+"bis": 4.206
+},
+{
+"wort": "nach",
+"von": 4.206,
+"bis": 4.459
+},
+{
+"wort": "nichts.",
+"von": 4.459,
+"bis": 4.805
+},
+{
+"wort": "Nach",
+"von": 5.22,
+"bis": 5.462
+},
+{
+"wort": "einem",
+"von": 5.462,
+"bis": 5.815
+},
+{
+"wort": "Jahr",
+"von": 5.815,
+"bis": 6.057
+},
+{
+"wort": "bist",
+"von": 6.057,
+"bis": 6.299
+},
+{
+"wort": "du",
+"von": 6.299,
+"bis": 6.453
+},
+{
+"wort": "fast",
+"von": 6.453,
+"bis": 6.695
+},
+{
+"wort": "achtunddreißigmal",
+"von": 6.695,
+"bis": 7.819
+},
+{
+"wort": "so",
+"von": 7.819,
+"bis": 7.973
+},
+{
+"wort": "weit.",
+"von": 7.973,
+"bis": 8.215
+},
+{
+"wort": "Jeden",
+"von": 8.62,
+"bis": 9.002
+},
+{
+"wort": "Tag",
+"von": 9.002,
+"bis": 9.217
+},
+{
+"wort": "ein",
+"von": 9.217,
+"bis": 9.432
+},
+{
+"wort": "Prozent",
+"von": 9.432,
+"bis": 9.909
+},
+{
+"wort": "schlechter?",
+"von": 9.909,
+"bis": 10.53
+},
+{
+"wort": "Nach",
+"von": 10.94,
+"bis": 11.18
+},
+{
+"wort": "einem",
+"von": 11.18,
+"bis": 11.529
+},
+{
+"wort": "Jahr",
+"von": 11.529,
+"bis": 11.769
+},
+{
+"wort": "ist",
+"von": 11.769,
+"bis": 11.965
+},
+{
+"wort": "fast",
+"von": 11.965,
+"bis": 12.205
+},
+{
+"wort": "nichts",
+"von": 12.205,
+"bis": 12.532
+},
+{
+"wort": "mehr",
+"von": 12.532,
+"bis": 12.772
+},
+{
+"wort": "übrig.",
+"von": 12.772,
+"bis": 13.165
+},
+{
+"wort": "Der",
+"von": 13.57,
+"bis": 13.744
+},
+{
+"wort": "Unterschied",
+"von": 13.744,
+"bis": 14.343
+},
+{
+"wort": "liegt",
+"von": 14.343,
+"bis": 14.594
+},
+{
+"wort": "nicht",
+"von": 14.594,
+"bis": 14.845
+},
+{
+"wort": "an",
+"von": 14.845,
+"bis": 14.981
+},
+{
+"wort": "einem",
+"von": 14.981,
+"bis": 15.29
+},
+{
+"wort": "großen",
+"von": 15.29,
+"bis": 15.676
+},
+{
+"wort": "Tag.",
+"von": 15.676,
+"bis": 15.85
+},
+{
+"wort": "Er",
+"von": 16.1,
+"bis": 16.251
+},
+{
+"wort": "liegt",
+"von": 16.251,
+"bis": 16.533
+},
+{
+"wort": "an",
+"von": 16.533,
+"bis": 16.684
+},
+{
+"wort": "dreihundertfünfundsechzig",
+"von": 16.684,
+"bis": 18.263
+},
+{
+"wort": "kleinen.",
+"von": 18.263,
+"bis": 18.695
+},
+{
+"wort": "Welches",
+"von": 19.18,
+"bis": 19.636
+},
+{
+"wort": "Prozent",
+"von": 19.636,
+"bis": 20.093
+},
+{
+"wort": "machst",
+"von": 20.093,
+"bis": 20.435
+},
+{
+"wort": "du",
+"von": 20.435,
+"bis": 20.595
+},
+{
+"wort": "heute?",
+"von": 20.595,
+"bis": 20.96
+}
+]
+}

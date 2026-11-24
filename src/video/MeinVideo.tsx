@@ -64,8 +64,8 @@ const KAMERA: KameraZeile[] = [
   [C.pueree - 0.1, 0.8, SX, 1160],
   [C.pueree + 0.6, 1.4, SX + 40, 1250], // halbnah: Beutel
   [C.gesuesst - 0.1, 1.45, SX + 40, 1250],
-  [C.gesuesst + 0.3, 1.9, SX + 40, 1220], // nah: Zucker faellt
-  [C.oben - 0.01, 1.95, SX + 40, 1220],
+  [C.gesuesst + 0.3, 1.8, SX + 60, 1180], // nah: Zucker faellt
+  [C.oben - 0.01, 1.85, SX + 60, 1180],
   [C.oben, 1.35, 600, 1300], // Schnitt, halbnah: Bowl, Figur, Zaehler
   [C.granola - 0.2, 1.45, 640, 1320],
   [C.honig - 0.1, 1.5, 660, 1330],
@@ -165,11 +165,13 @@ const Bowl: React.FC<{t: number}> = ({t}) => {
 
 // ---------- Beere ----------
 const Beere: React.FC<{t: number}> = ({t}) => {
-  if (t < C.beere - 0.4 || t > C.darum) return null;
+  // faellt langsam ab dem Schnitt auf „Die“ und landet auf „schmeckt“
+  if (t < C.die || t > C.darum) return null;
   const r = 26;
   const ruhe = BODEN - r;
-  const y = fall(t, C.beere, 0.4, ruhe - 700, ruhe) - 40 * federn(t, C.beere, 0.4);
-  const blitz = ein(t, C.beere, 0.05) * aus(t, C.beere + 0.06, 0.4);
+  const p = interpolate(t, [C.die, C.schmeckt], [0, 1], clamp);
+  const y = ruhe - 640 + 640 * Math.pow(p, 1.6) - 40 * federn(t, C.schmeckt, 0.4);
+  const blitz = ein(t, C.schmeckt, 0.05) * aus(t, C.schmeckt + 0.06, 0.4);
   return (
     <>
       {blitz > 0 ? <Leuchten x={BEERE_X} y={BODEN} r={120} staerke={0.35 * blitz} /> : null}
@@ -223,7 +225,7 @@ const Laden: React.FC<{t: number}> = ({t}) => {
   for (let i = 0; i < 6; i++) {
     const landet = C.gesuesst + i * 0.08;
     if (t < landet - 0.4 || t > landet + 0.05) continue;
-    const x = SX - 30 + (i % 3) * 30 + (zufall(i + 7) - 0.5) * 16;
+    const x = SX - 50 + (i % 3) * 25 + (zufall(i + 7) - 0.5) * 16;
     const y = fall(t, landet, 0.4, top - 520, top + 10);
     wuerfel.push(<rect key={i} x={x - 13} y={y - 13} width={26} height={26} rx={3} fill={FARBE.figur} transform={`rotate(${(t - landet) * 300 + i * 25} ${x} ${y})`} style={leuchtFilter("rgba(242,242,240,0.5)", 8)} />);
   }
@@ -351,7 +353,7 @@ export const MeinVideo: React.FC = () => {
 
   const zZ = ein(t, C.gesuesst, 0.3);
   const zuckerZaehler = (x: number, y: number, o: number) =>
-    o > 0 ? <Zaehler key={`z${x}`} x={x} y={y} oben="ZUCKER" unten={`${zuckerBei(t)} g`} deckkraft={o} skala={1 + 0.12 * federn(t, C.gesuesst + 0.1, 0.4)} /> : null;
+    o > 0 ? <Zaehler key={`z${x}`} x={x} y={y} oben="ZUCKER" unten={`${zuckerBei(t)} g`} deckkraft={o} skala={1.6 + 0.15 * federn(t, C.gesuesst + 0.1, 0.4)} /> : null;
 
   return (
     <AbsoluteFill style={{background: FARBE.hintergrund}}>
@@ -363,7 +365,7 @@ export const MeinVideo: React.FC = () => {
           <>
             <Leuchten x={SX} y={REGAL_Y - 100} r={320} staerke={0.08} />
             <Laden t={t} />
-            {zuckerZaehler(SX + 230, 1230, zZ)}
+            {zuckerZaehler(SX + 200, 1050, zZ)}
           </>
         ) : (
           <>

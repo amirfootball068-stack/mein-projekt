@@ -76,8 +76,10 @@ Länge: ca. 20 Sekunden · 6 Einstellungen · Hook in der ersten Sekunde
 **Szene 2 – Mixer (Text zu Video, ohne Startbild):**
 > Slow motion inside a blender: frozen dark-violet açaí chunks and a few frozen strawberries are blended into a very thick, creamy violet mass, the blade turns slowly through the dense texture. Camera close, slight push-in. Audio: powerful blender motor, crushing ice and frozen fruit, thick creamy churning, no music, no voice.
 
-**Szene 3 – Löffel steht:**
-> A metal spoon stands upright in the extremely thick violet açaí in the matte black bowl, a hand slowly turns the spoon, the creamy texture curls around it. Only the hand is visible. Camera static, macro.
+**Szene 2:** ✅ erledigt → `public/serie/folge1/szene2.mp4` (10 s, Zerkleinern 1,3–3,8 s, cremige Masse ab 4 s – im Schnitt ca. 2,5–3,5 s + 4–6 s)
+
+**Szene 3 – Löffel steht (Text zu Video, ohne Startbild):**
+> Close-up of the matte black ceramic bowl filled to the rim with plain, extremely thick deep-violet açaí, no toppings yet. A metal spoon stands upright in the açaí without falling. A hand enters, slowly turns the spoon once, the dense creamy texture curls around it, then the hand lets go and the spoon stays upright. Only the hand is visible. Camera static, macro. Audio: thick creamy squelch, soft spoon scrape on ceramic, no music, no voice.
 
 **Szene 4 – Erdbeeren schneiden:**
 > Close-up: a sharp knife slices a ripe red strawberry on a dark wooden board, juicy cross-section visible, then the slices are fanned onto the violet açaí in the matte black bowl. Slow motion, camera slowly tracks.

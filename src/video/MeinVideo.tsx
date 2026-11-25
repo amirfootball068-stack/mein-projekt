@@ -19,9 +19,9 @@ const DAUER = MEIN_VIDEO_DAUER;
 const {wort, wortEnde} = woerterVon(Z);
 
 // Farben: Weiss = Welt, Violett = Açaí, Gold = Akzent; Toppings in echten Farben
-const ACAI = "#7B4FC9";
+export const ACAI = "#7B4FC9";
 const ACAI_HELL = "#9C74E0";
-const GOLD = "#E8B04A";
+export const GOLD = "#E8B04A";
 const EIS = "#A8DCFF";
 const ERDBEERE = "#E5484D";
 const BLAUBEERE = "#4B6BDB";
@@ -63,9 +63,9 @@ const C = {
 const ABSPRUNG = DAUER - C.bowl; // Becher springt hoch und haengt im letzten Bild genau wie im ersten
 
 // ---- Welt ----
-const BODEN = 1500;
-const FX = 430; // Figur
-const BX = 720; // Becher
+export const BODEN = 1500;
+export const FX = 430; // Figur
+export const BX = 720; // Becher
 const MX = BX + 290; // kleiner Snack-Becher
 
 // Kamera-Tabelle: [Sekunde, Zoom, x, y]
@@ -139,13 +139,13 @@ const leuchtFilter = (farbe: string, r = 14) => ({filter: `drop-shadow(0 0 ${r}p
 const BH = 300; // Becherhoehe
 const TW = 125; // halbe Breite oben
 const BW = 88; // halbe Breite unten
-const RAND = BODEN - BH; // Oberkante Becher
-const TOP = 1250; // Oberflaeche Açaí
+export const RAND = BODEN - BH; // Oberkante Becher
+export const TOP = 1250; // Oberflaeche Açaí
 const ZUTAT_X = BX - 75; // hier schweben die Zutaten
 const ZUTAT_Y = 1045;
 
 /** Schicht im Becher von yTop bis yBot, optional mit welliger Oberkante */
-const schicht = (key: string, bx: number, yTop: number, yBot: number, farbe: string, welle = 0, t = 0) => {
+export const schicht = (key: string, bx: number, yTop: number, yBot: number, farbe: string, welle = 0, t = 0) => {
   const pkt: string[] = [];
   for (let k = 0; k <= 16; k++) {
     const x = bx - TW + (k / 16) * 2 * TW;
@@ -165,7 +165,7 @@ const Kristall = ({x, y, r, o}: {x: number; y: number; r: number; o: number}) =>
 );
 
 /** Durchsichtiger Becher. innen = Schichten (abgeschnitten), oben = was darauf liegt, eis = 0..1 */
-const Becher: React.FC<{bx: number; dy?: number; sq?: number; innen?: React.ReactNode; oben?: React.ReactNode; vorne?: React.ReactNode; eis?: number}> = ({
+export const Becher: React.FC<{bx: number; dy?: number; sq?: number; innen?: React.ReactNode; oben?: React.ReactNode; vorne?: React.ReactNode; eis?: number}> = ({
   bx,
   dy = 0,
   sq = 0,
@@ -209,7 +209,7 @@ const Becher: React.FC<{bx: number; dy?: number; sq?: number; innen?: React.Reac
 type Art = "erdbeeren" | "blaubeeren" | "banane" | "granola";
 const ZUTAT_NAME: Record<Art, string> = {erdbeeren: "ERDBEEREN", blaubeeren: "BLAUBEEREN", banane: "BANANE", granola: "GRANOLA"};
 
-const Erdbeere = ({x, y, s = 1, dreh = 0}: {x: number; y: number; s?: number; dreh?: number}) => (
+export const Erdbeere = ({x, y, s = 1, dreh = 0}: {x: number; y: number; s?: number; dreh?: number}) => (
   <g transform={`translate(${x} ${y}) rotate(${dreh}) scale(${s})`}>
     <path d="M 0 -16 C 16 -18 22 -2 0 18 C -22 -2 -16 -18 0 -16 Z" fill={ERDBEERE} />
     <path d="M -8 -16 L 0 -22 L 8 -16" stroke="#6FBF73" strokeWidth={4} fill="none" strokeLinecap="round" />
@@ -218,7 +218,7 @@ const Erdbeere = ({x, y, s = 1, dreh = 0}: {x: number; y: number; s?: number; dr
     ))}
   </g>
 );
-const Blaubeere = ({x, y, r = 11}: {x: number; y: number; r?: number}) => (
+export const Blaubeere = ({x, y, r = 11}: {x: number; y: number; r?: number}) => (
   <g>
     <circle cx={x} cy={y} r={r} fill={BLAUBEERE} />
     <circle cx={x - r * 0.35} cy={y - r * 0.35} r={r * 0.3} fill="#FFFFFF" opacity={0.35} />
@@ -270,7 +270,7 @@ const Zutat = ({t, art, auf, kipp}: {t: number; art: Art; auf: number; kipp: num
 };
 
 /** Toppings fliegen von der Zutat auf den Becher und tuermen sich oben */
-const toppings = (t: number, bx: number) => {
+export const toppings = (t: number, bx: number) => {
   const n: React.ReactNode[] = [];
   const stueck = (key: string, i: number, landet: number, dx: number, y1: number, zeichne: (x: number, y: number) => React.ReactNode) => {
     if (t < landet - 0.35) return;

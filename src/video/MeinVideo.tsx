@@ -4,7 +4,7 @@ import {FARBE, MONO, SCHRIFT, Schriften, aus, clamp, ein, zufall} from "../stil"
 import {Sternenhimmel} from "../bausteine/Sternenhimmel";
 import {KameraZeile, Welt, kameraBei} from "../bausteine/Kamera";
 import {Figur} from "../bausteine/Figur";
-import {Boden, Leuchten} from "../bausteine/Welt";
+import {Boden, Geraeusch, Leuchten} from "../bausteine/Welt";
 import {woerterVon, Zeitstempel} from "../bausteine/zeit";
 import ZS from "./zeitstempel.json";
 
@@ -745,6 +745,40 @@ export const MeinVideo: React.FC = () => {
       </Welt>
       <Untertitel t={t} />
       {Z.datei ? <Audio src={staticFile(Z.datei)} /> : null}
+      {/* Geraeusche: ein Geraeusch pro Aktion, leise (0,15–0,4) */}
+      {/* Szene 1 */}
+      <Geraeusch name="bass_drop" bei={C.bowl} lautstaerke={0.2} /> {/* Becher landet */}
+      <Geraeusch name="whoosh_kurz" bei={C.mehr - 0.1} lautstaerke={0.2} /> {/* Rueckfahrt */}
+      <Geraeusch name="schimmer" bei={C.huebsch} lautstaerke={0.2} /> {/* Funkeln */}
+      <Geraeusch name="klack" bei={C.fruehstueck} lautstaerke={0.3} /> {/* Faehnchen steckt */}
+      {/* Szene 2 */}
+      <Geraeusch name="tropfen" bei={C.cremig} lautstaerke={0.3} /> {/* Strudel */}
+      <Geraeusch name="huepfer" bei={C.fruchtig} lautstaerke={0.25} /> {/* Fruechte huepfen */}
+      <Geraeusch name="flackern" bei={C.eiskalt} lautstaerke={0.22} /> {/* Eis */}
+      {/* Szene 3 */}
+      <Geraeusch name="whoosh_kurz" bei={C.oben - 0.1} lautstaerke={0.2} /> {/* Schnitt */}
+      <Geraeusch name="tock" bei={C.erd + 0.45} lautstaerke={0.35} /> {/* Erdbeeren landen */}
+      <Geraeusch name="klick" bei={C.blau + 0.45} lautstaerke={0.35} /> {/* Blaubeeren landen */}
+      <Geraeusch name="tock" bei={C.banane + 0.45} lautstaerke={0.3} /> {/* Banane landet */}
+      {/* Szene 4 */}
+      <Geraeusch name="papier" bei={C.granola} lautstaerke={0.3} /> {/* Granola-Tuete */}
+      <Geraeusch name="tropfen" bei={C.loeffel} lautstaerke={0.25} /> {/* Loeffel taucht ein */}
+      <Geraeusch name="stempel" bei={C.knackt} lautstaerke={0.4} /> {/* Knack */}
+      {/* Szene 5 */}
+      <Geraeusch name="uhr_tickt" bei={C.morgens} lautstaerke={0.15} /> {/* Sonne + Uhr */}
+      <Geraeusch name="huepfer" bei={C.start} lautstaerke={0.25} /> {/* Figur huepft los */}
+      {/* Szene 6 */}
+      <Geraeusch name="tock" bei={C.nachmittags} lautstaerke={0.3} /> {/* Uhr springt */}
+      <Geraeusch name="klack" bei={C.snack} lautstaerke={0.3} /> {/* Snack-Becher landet */}
+      {/* Szene 7 */}
+      <Geraeusch name="schimmer" bei={C.abends} lautstaerke={0.18} /> {/* Mond */}
+      <Geraeusch name="muenze_landet" bei={C.belohnung} lautstaerke={0.3} /> {/* Stern landet */}
+      <Geraeusch name="flackern" bei={C.langen} lautstaerke={0.15} /> {/* Figur wird muede, Licht dimmt */}
+      {/* Szene 8 */}
+      <Geraeusch name="whoosh_kurz" bei={C.toppings} lautstaerke={0.25} /> {/* Toppings steigen auf */}
+      <Geraeusch name="klick" bei={C.deiner} lautstaerke={0.35} /> {/* „?“ erscheint */}
+      <Geraeusch name="tock" bei={C.fehlen} lautstaerke={0.25} /> {/* Figur kippt */}
+      <Geraeusch name="whoosh_kurz" bei={ABSPRUNG} lautstaerke={0.2} /> {/* Becher springt hoch (Schleife) */}
     </AbsoluteFill>
   );
 };

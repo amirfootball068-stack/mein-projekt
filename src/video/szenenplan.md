@@ -8,6 +8,7 @@ Voice-over: „Voiceover_neu.mp3“ (21,9 s). Das vorige Video (Zucker-Version) 
 Gefäß: durchsichtiger Becher – man sieht die Schichten, Toppings türmen sich oben drauf.
 Zutaten: jede erscheint auf ihrem Wort groß mit Namen und kippt dann in den Becher.
 Farben: Weiß = Welt und Figur · Violett = Açaí · Gold = Schlüsselwörter, Sonne, Glanz · Toppings in ihren echten Farben (Erdbeere rot, Blaubeere blau, Banane hell).
+Geräusche: ein Geräusch pro Aktion aus dem Sound-Paket, leise (0,15–0,4) – Liste in MeinVideo.tsx unten.
 
 | # | Skriptzeile | Was man sieht | Aktion auf Wort | Einstellung |
 |---|---|---|---|---|

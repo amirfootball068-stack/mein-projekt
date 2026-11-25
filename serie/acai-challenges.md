@@ -71,8 +71,10 @@ Länge: ca. 20 Sekunden · 6 Einstellungen · Hook in der ersten Sekunde
 **Szene 1 – Hook (Bild zu Video, Startbild hochladen):**
 > Use the uploaded image as the first frame. Slow motion: a single ripe red strawberry falls from above into the smooth free açaí surface on the left side of the bowl, a small creamy violet splash rises and falls back, droplets glisten in the window light. Everything else stays exactly the same. Camera slowly pushes in, macro. Audio: one soft wet plop and a gentle creamy splash, quiet room, no music, no voice.
 
-**Szene 2 – Mixer:**
-> Slow motion inside a blender: frozen dark-violet açaí chunks and a few frozen strawberries are blended into a very thick, creamy violet mass, the blade turns slowly through the dense texture. Camera close, slight push-in.
+**Szene 1:** ✅ erledigt → `public/serie/folge1/szene1.mp4` (10 s, Ton 2,5–6 s, Spritzer bei ca. 3 s – im Schnitt ab ca. 1 s verwenden)
+
+**Szene 2 – Mixer (Text zu Video, ohne Startbild):**
+> Slow motion inside a blender: frozen dark-violet açaí chunks and a few frozen strawberries are blended into a very thick, creamy violet mass, the blade turns slowly through the dense texture. Camera close, slight push-in. Audio: powerful blender motor, crushing ice and frozen fruit, thick creamy churning, no music, no voice.
 
 **Szene 3 – Löffel steht:**
 > A metal spoon stands upright in the extremely thick violet açaí in the matte black bowl, a hand slowly turns the spoon, the creamy texture curls around it. Only the hand is visible. Camera static, macro.

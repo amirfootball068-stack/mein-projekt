@@ -66,8 +66,10 @@ Länge: ca. 20 Sekunden · 6 Einstellungen · Hook in der ersten Sekunde
 **Startbild (Gemini, Bild):**
 > A finished açaí bowl seen from a 45° angle: thick deep-violet açaí in a matte black ceramic bowl, topped with fanned fresh strawberry slices, a few whole strawberries, golden granola and coconut flakes, on a dark walnut wood table, a few strawberries scattered beside the bowl.
 
-**Szene 1 – Hook:**
-> Slow motion: a single ripe red strawberry falls from above into the thick deep-violet açaí in the matte black bowl, a small creamy violet splash rises and falls back, droplets glisten in the window light. Camera static, macro.
+**Startbild:** ✅ erledigt → `serie/referenz/startbild_folge1.jpg`
+
+**Szene 1 – Hook (Bild zu Video, Startbild hochladen):**
+> Use the uploaded image as the first frame. Slow motion: a single ripe red strawberry falls from above into the smooth free açaí surface on the left side of the bowl, a small creamy violet splash rises and falls back, droplets glisten in the window light. Everything else stays exactly the same. Camera slowly pushes in, macro. Audio: one soft wet plop and a gentle creamy splash, quiet room, no music, no voice.
 
 **Szene 2 – Mixer:**
 > Slow motion inside a blender: frozen dark-violet açaí chunks and a few frozen strawberries are blended into a very thick, creamy violet mass, the blade turns slowly through the dense texture. Camera close, slight push-in.

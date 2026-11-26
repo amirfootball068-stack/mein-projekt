@@ -31,7 +31,7 @@ const C = {
   ende: wortEnde("verrückt"),
 };
 
-type Szene = {von: number; bis: number; clip: string | null; ab: number; ton: number; filter?: string};
+type Szene = {von: number; bis: number; clip: string | null; ab: number; ton: number; filter?: string; zoom?: number};
 
 // Clip-Zeiten so gewaehlt, dass Aktionen auf Woertern sitzen:
 // Spritzer (Clip 1 bei 3,0 s) auf „alle“, erste Erdbeerscheibe (Clip 4 bei 3,0 s) auf „Erdbeeren“, Granola (Clip 5 bei 3,6 s) auf „Granola“
@@ -43,8 +43,8 @@ const SZENEN: Szene[] = [
   {von: C.dass, bis: C.oben, clip: "szene3", ab: 6.0, ton: 1, filter: "brightness(0.82) contrast(1.08) saturate(1.2)"},
   {von: C.oben, bis: C.kokos, clip: "szene4", ab: 3.0 - (C.erdbeeren - C.oben), ton: 1},
   {von: C.kokos, bis: C.und, clip: "szene5", ab: 3.6 - (C.granola - C.kokos), ton: 1},
-  {von: C.und, bis: C.wuerdest, clip: null, ab: 0, ton: 0}, // Szene 6 folgt – Platzhalter: Startbild
-  {von: C.wuerdest, bis: FOLGE1_DAUER, clip: null, ab: 0, ton: 0}, // Schlussbild: fertige Bowl
+  {von: C.und, bis: C.wuerdest, clip: "szene6", ab: 3.44 - (wort("Löffel", 2) - C.und), ton: 1, zoom: 1.35}, // Bissen auf dem Loeffel auf „Löffel“
+  {von: C.wuerdest, bis: FOLGE1_DAUER, clip: null, ab: 0, ton: 0}, // Schlussbild: fertige Bowl (Startbild)
 ];
 
 /** Standbild mit langsamem Zoom (Ken Burns) */
@@ -121,7 +121,7 @@ export const Folge1: React.FC = () => {
                 src={staticFile(`serie/folge1/${s.clip}.mp4`)}
                 startFrom={f(Math.max(0, s.ab))}
                 muted
-                style={{width: "100%", height: "100%", objectFit: "cover", filter: s.filter}}
+                style={{width: "100%", height: "100%", objectFit: "cover", filter: s.filter, transform: s.zoom ? `scale(${s.zoom})` : undefined, transformOrigin: "58% 38%"}}
               />
               <Audio src={staticFile(`serie/folge1/ton/${s.clip}.wav`)} startFrom={f(Math.max(0, s.ab))} volume={0.55 * s.ton} />
             </>
@@ -182,6 +182,9 @@ export const Folge1: React.FC = () => {
       <Audio src={staticFile(Z.datei)} />
       {/* ASMR-Ergaenzung: Szene 5 ist sehr leise → leises Knuspern auf „Granola“ */}
       <Geraeusch name="tock" bei={C.granola + 0.05} lautstaerke={0.2} />
+      {/* Szene 6 hat kaum Ton → Loeffel taucht ein + Knuspern */}
+      <Geraeusch name="tropfen" bei={C.und + 0.15} lautstaerke={0.25} />
+      <Geraeusch name="tock" bei={wort("Löffel", 2)} lautstaerke={0.25} />
     </AbsoluteFill>
   );
 };

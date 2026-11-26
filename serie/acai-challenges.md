@@ -96,6 +96,10 @@ Länge: ca. 20 Sekunden · 6 Einstellungen · Hook in der ersten Sekunde
 **Szene 6 – Erster Löffel (Bild zu Video, Startbild hochladen):**
 > Use the uploaded image as the first frame. A metal spoon enters from the right, dips into the bowl and lifts a perfect bite in slow motion: thick deep-violet açaí, a strawberry slice and crunchy granola on top, a few granola crumbs fall back into the bowl. Only the hand is visible. The bowl and table stay exactly the same. Camera follows the spoon up slightly, shallow depth of field. Audio: crunchy granola, soft creamy scoop, quiet room, no music, no voice.
 
+**Szene 6:** ✅ erledigt → `public/serie/folge1/szene6.mp4`
+
+**Folge 1 fertig:** `Ausgabe/Folge1_master.mp4` (22,3 s, 1080×1920, −14 LUFS) – Komposition `Folge1` in `src/serie/folge1/Folge1.tsx`
+
 ### Schnitt (macht Claude)
 - Clips auf die Stimme schneiden, harte Schnitte auf betonte Wörter („Erdbeere“, „zehn“, „alle“, „Löffel“).
 - Untertitel Wort für Wort, fett, weiß, Schlüsselwörter violett.

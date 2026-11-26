@@ -7,7 +7,7 @@ import ZS from "./zeitstempel.json";
 
 /**
  * GTA-Account · Video 2: „Jason & Lucia – was steckt hinter ihrer Beziehung?“
- * Konzept: serie/gta6-video2.md · Bilder: offizielle Trailer-Bilder (Querformat, Kamera faehrt darueber) · Gaming-Doku-Look
+ * Konzept: serie/gta6-video2.md · Bilder: eigene KI-Stimmungsbilder (Silhouetten, keine Rockstar-Figuren) · Gaming-Doku-Look
  */
 
 const Z = ZS as Zeitstempel;
@@ -37,18 +37,18 @@ const pruefen = <T extends {von: number}>(l: T[]): T[] => {
 };
 
 const SZENEN: Szene[] = pruefen([
-  {von: 0, bild: B("ueberfall.jpg"), pos: [22, 72], zoom: [1.05, 1.12], ursprung: ["50% 45%", "50% 45%"], titel: "DAS GEFÄHRLICHSTE PAAR", klein: "IN LEONIDA?", farbe: PINK, glitch: true},
-  {von: wort("Lucia Caminos"), bild: B("kueche.jpg"), pos: [33, 30], zoom: [1.05, 1.15], ursprung: ["50% 35%", "50% 30%"], titel: "LUCIA CAMINOS", klein: "KÄMPFT, SEIT SIE LAUFEN KANN", farbe: TUERKIS},
-  {von: wort("Sie hat für"), bild: B("motel.jpg"), pos: [20, 24], zoom: [1.1, 1.25], ursprung: ["50% 35%", "50% 30%"], titel: "GEFÄNGNIS", titelBei: wort("Gefängnis"), klein: "RAUS DURCH PURES GLÜCK", farbe: PINK},
-  {von: wort("Jason Duval"), bild: B("kueche.jpg"), pos: [66, 68], zoom: [1.05, 1.15], ursprung: ["50% 30%", "50% 25%"], titel: "JASON DUVAL", klein: "AUFGEWACHSEN UNTER GAUNERN", farbe: TUERKIS},
-  {von: wort("Gelandet"), bild: B("cabrio_nacht.jpg"), pos: [36, 40], zoom: [1.35, 1.5], ursprung: ["50% 50%", "45% 50%"], titel: "EX-SOLDAT", klein: "HANDLANGER IN DEN KEYS"},
-  {von: wort("Zwei Menschen"), bild: B("kueche.jpg"), pos: [48, 52], zoom: [1.0, 1.06], ursprung: ["50% 45%", "50% 45%"], titel: "DAS SPIEL IST", klein: "GEGEN SIE GEZINKT", farbe: PINK},
-  {von: wort("Dann geht"), bild: B("cabrio_nacht.jpg"), pos: [70, 74], zoom: [1.3, 1.45], ursprung: ["50% 50%", "55% 50%"], titel: "EIN LEICHTER COUP …", glitch: true},
-  {von: wort("schief") - 0.02, bild: B("cabrio_nacht.jpg"), pos: [72, 72], zoom: [1.6, 1.7], ursprung: ["55% 48%", "55% 48%"], titel: "… GEHT SCHIEF.", farbe: PINK, glitch: true},
-  {von: wort("Verschwörung"), bild: B("ueberfall.jpg"), pos: [18, 24], zoom: [1.12, 1.25], ursprung: ["40% 40%", "40% 38%"], titel: "VERSCHWÖRUNG", klein: "QUER DURCH LEONIDA", farbe: PINK},
-  {von: wort("Ihre einzige"), bild: B("motel.jpg"), pos: [66, 70], zoom: [1.05, 1.18], ursprung: ["50% 55%", "50% 55%"], titel: "VERTRAUEN", klein: "= ÜBERLEBEN", farbe: TUERKIS},
-  {von: wort("Aber in"), bild: B("umarmung_neon.jpg"), pos: [22, 18], zoom: [1.05, 1.2], ursprung: ["50% 35%", "50% 30%"], titel: "VERRAT?", titelBei: wort("Verrat"), farbe: PINK, glitch: true},
-  {von: wort("Du hast"), bild: B("umarmung_neon.jpg"), pos: [76, 80], zoom: [1.05, 1.15], ursprung: ["50% 40%", "50% 35%"], titel: "VERTRAUEN ODER VERRAT?", klein: "OHNE SPOILER ↓", farbe: PINK},
+  {von: 0, bild: B("s1_strasse.jpg"), zoom: [1.05, 1.15], ursprung: ["50% 55%", "50% 50%"], titel: "DAS GEFÄHRLICHSTE PAAR", klein: "IN LEONIDA?", farbe: PINK, glitch: true},
+  {von: wort("Lucia Caminos"), bild: B("s2_gefaengnis.jpg"), zoom: [1.0, 1.1], ursprung: ["70% 60%", "65% 55%"], titel: "LUCIA CAMINOS", klein: "KÄMPFT, SEIT SIE LAUFEN KANN", farbe: TUERKIS},
+  {von: wort("Sie hat für"), bild: B("s2_gefaengnis.jpg"), zoom: [1.5, 1.7], ursprung: ["30% 45%", "35% 40%"], titel: "GEFÄNGNIS", titelBei: wort("Gefängnis"), klein: "RAUS DURCH PURES GLÜCK", farbe: PINK},
+  {von: wort("Jason Duval"), bild: B("s3_boot.jpg"), pos: [80, 72], zoom: [1.0, 1.08], ursprung: ["50% 50%", "50% 50%"], titel: "JASON DUVAL", klein: "AUFGEWACHSEN UNTER GAUNERN", farbe: TUERKIS},
+  {von: wort("Gelandet"), bild: B("s3_boot.jpg"), pos: [50, 54], zoom: [1.4, 1.6], ursprung: ["50% 70%", "50% 75%"], titel: "EX-SOLDAT", klein: "HANDLANGER IN DEN KEYS"},
+  {von: wort("Zwei Menschen"), bild: B("s1_strasse.jpg"), zoom: [1.6, 1.75], ursprung: ["50% 45%", "50% 42%"], titel: "DAS SPIEL IST", klein: "GEGEN SIE GEZINKT", farbe: PINK},
+  {von: wort("Dann geht"), bild: B("s4_auto.jpg"), zoom: [1.0, 1.1], ursprung: ["50% 55%", "50% 50%"], titel: "EIN LEICHTER COUP …", glitch: true},
+  {von: wort("schief") - 0.02, bild: B("s4_auto.jpg"), zoom: [2.0, 2.2], ursprung: ["50% 37%", "50% 37%"], titel: "… GEHT SCHIEF.", farbe: PINK, glitch: true},
+  {von: wort("Verschwörung"), bild: B("s5_pinnwand.jpg"), zoom: [1.0, 1.15], ursprung: ["45% 40%", "45% 45%"], titel: "VERSCHWÖRUNG", klein: "QUER DURCH LEONIDA", farbe: PINK},
+  {von: wort("Ihre einzige"), bild: B("s6_sunset.jpg"), zoom: [1.5, 1.6], ursprung: ["50% 50%", "50% 50%"], titel: "VERTRAUEN", klein: "= ÜBERLEBEN", farbe: TUERKIS},
+  {von: wort("Aber in"), bild: B("s1_strasse.jpg"), zoom: [2.0, 2.2], ursprung: ["50% 40%", "50% 38%"], titel: "VERRAT?", titelBei: wort("Verrat"), farbe: PINK, glitch: true},
+  {von: wort("Du hast"), bild: B("s6_sunset.jpg"), zoom: [1.0, 1.1], ursprung: ["50% 60%", "50% 55%"], titel: "VERTRAUEN ODER VERRAT?", klein: "OHNE SPOILER ↓", farbe: PINK},
 ]);
 
 /** Bild mit langsamer Kamerafahrt (Ken Burns) */

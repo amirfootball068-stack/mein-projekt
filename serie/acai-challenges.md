@@ -81,8 +81,10 @@ Länge: ca. 20 Sekunden · 6 Einstellungen · Hook in der ersten Sekunde
 **Szene 3 – Löffel steht (Text zu Video, ohne Startbild):**
 > Close-up of the matte black ceramic bowl filled to the rim with plain, extremely thick deep-violet açaí, no toppings yet. A metal spoon stands upright in the açaí without falling. A hand enters, slowly turns the spoon once, the dense creamy texture curls around it, then the hand lets go and the spoon stays upright. Only the hand is visible. Camera static, macro. Audio: thick creamy squelch, soft spoon scrape on ceramic, no music, no voice.
 
-**Szene 4 – Erdbeeren schneiden:**
-> Close-up: a sharp knife slices a ripe red strawberry on a dark wooden board, juicy cross-section visible, then the slices are fanned onto the violet açaí in the matte black bowl. Slow motion, camera slowly tracks.
+**Szene 3:** ✅ erledigt → `public/serie/folge1/szene3.mp4` (10 s, Hand dreht 1,5–5 s, Löffel bleibt stehen ab ca. 6,5 s; Farbe etwas heller/rosa → im Schnitt an Szene 1 angleichen)
+
+**Szene 4 – Erdbeeren schneiden (Text zu Video, ohne Startbild):**
+> Macro close-up on a dark walnut wooden board: a sharp chef's knife slowly slices a ripe red strawberry with its green top into thin slices, juicy glistening cross-section, a drop of juice runs down. Only the hand holding the knife is visible. Slow motion, camera static. Audio: crisp juicy knife cuts on wood, quiet room, no music, no voice.
 
 **Szene 5 – Toppings:**
 > Slow motion: white coconut flakes snow down onto the strawberry-topped açaí bowl, then golden crunchy granola clusters fall and bounce lightly. Camera static, macro.

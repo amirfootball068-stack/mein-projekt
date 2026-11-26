@@ -54,7 +54,7 @@ const SZENEN: Szene[] = pruefen([
   {von: wort("Rekord"), bild: B("bild1_skyline.png"), zoom: [2.0, 2.2], ursprung: ["85% 25%", "80% 25%"], titel: "REKORD.", klein: "RELEASE: 2025", farbe: TUERKIS},
   {von: wort("Doch dann"), bild: B("bild7_kalender.jpg"), zoom: [1.0, 1.1], ursprung: ["50% 55%", "50% 55%"], titel: "VERSCHOBEN.", titelBei: wort("verschoben", 1), farbe: PINK},
   {von: wort("verschoben", 2) - 0.02, bild: B("bild7_kalender.jpg"), zoom: [1.8, 1.95], ursprung: ["45% 52%", "45% 52%"], titel: "VERSCHOBEN.", klein: "FEINSCHLIFF · KEIN CRUNCH", farbe: PINK},
-  {von: wort("Am 19"), bild: B("bild8_launch.jpg"), zoom: [1.0, 1.1], ursprung: ["50% 40%", "50% 35%"], titel: "19.11.2026", farbe: TUERKIS, zensur: true},
+  {von: wort("Am 19"), bild: B("bild8_launch.jpg"), zoom: [1.0, 1.1], ursprung: ["50% 40%", "50% 35%"], titel: "ENDLICH DA.", farbe: TUERKIS, zensur: true},
   {von: wort("Laut Take-Two"), bild: B("bild8_launch.jpg"), zoom: [1.4, 1.6], ursprung: ["50% 70%", "50% 65%"], titel: "$3,79 MRD.", titelBei: wort("3,79"), klein: "AN TAG 1 · LAUT TAKE-TWO", farbe: PINK, zensur: true},
   {von: wort("Also ehrlich"), bild: B("bild9_sunset.jpg"), zoom: [1.0, 1.15], ursprung: ["60% 45%", "65% 45%"], titel: "GELOHNT?", titelBei: wort("Hat sich"), klein: "SCHREIB'S IN DIE KOMMENTARE ↓", farbe: PINK},
 ]);

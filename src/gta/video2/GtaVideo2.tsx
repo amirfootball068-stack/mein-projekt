@@ -45,8 +45,8 @@ const SZENEN: Szene[] = pruefen([
   {von: wort("Zwei Menschen"), bild: B("kueche.jpg"), pos: [48, 52], zoom: [1.0, 1.06], ursprung: ["50% 45%", "50% 45%"], titel: "DAS SPIEL IST", klein: "GEGEN SIE GEZINKT", farbe: PINK},
   {von: wort("Dann geht"), bild: B("cabrio_nacht.jpg"), pos: [70, 74], zoom: [1.3, 1.45], ursprung: ["50% 50%", "55% 50%"], titel: "EIN LEICHTER COUP …", glitch: true},
   {von: wort("schief") - 0.02, bild: B("cabrio_nacht.jpg"), pos: [72, 72], zoom: [1.6, 1.7], ursprung: ["55% 48%", "55% 48%"], titel: "… GEHT SCHIEF.", farbe: PINK, glitch: true},
-  {von: wort("Verschwörung"), bild: B("sumpf.jpg"), pos: [80, 72], zoom: [1.0, 1.1], ursprung: ["50% 40%", "50% 40%"], titel: "VERSCHWÖRUNG", klein: "QUER DURCH LEONIDA", farbe: PINK},
-  {von: wort("Ihre einzige"), bild: B("sumpf.jpg"), pos: [42, 42], zoom: [1.15, 1.3], ursprung: ["50% 35%", "50% 32%"], titel: "VERTRAUEN", klein: "= ÜBERLEBEN", farbe: TUERKIS},
+  {von: wort("Verschwörung"), bild: B("ueberfall.jpg"), pos: [18, 24], zoom: [1.12, 1.25], ursprung: ["40% 40%", "40% 38%"], titel: "VERSCHWÖRUNG", klein: "QUER DURCH LEONIDA", farbe: PINK},
+  {von: wort("Ihre einzige"), bild: B("motel.jpg"), pos: [66, 70], zoom: [1.05, 1.18], ursprung: ["50% 55%", "50% 55%"], titel: "VERTRAUEN", klein: "= ÜBERLEBEN", farbe: TUERKIS},
   {von: wort("Aber in"), bild: B("umarmung_neon.jpg"), pos: [22, 18], zoom: [1.05, 1.2], ursprung: ["50% 35%", "50% 30%"], titel: "VERRAT?", titelBei: wort("Verrat"), farbe: PINK, glitch: true},
   {von: wort("Du hast"), bild: B("umarmung_neon.jpg"), pos: [76, 80], zoom: [1.05, 1.15], ursprung: ["50% 40%", "50% 35%"], titel: "VERTRAUEN ODER VERRAT?", klein: "OHNE SPOILER ↓", farbe: PINK},
 ]);

@@ -91,8 +91,10 @@ Länge: ca. 20 Sekunden · 6 Einstellungen · Hook in der ersten Sekunde
 **Szene 5 – Toppings (Bild zu Video, Startbild hochladen):**
 > Use the uploaded image as the first frame. Slow motion: a few more white coconut flakes snow down onto the bowl from above, then a small handful of golden crunchy granola clusters falls onto the granola area and bounces lightly. The bowl, the strawberries and the table stay exactly the same. Camera slowly pushes in, macro. Audio: soft rustling flakes, light crunchy granola landing, quiet room, no music, no voice.
 
-**Szene 6 – Erster Löffel:**
-> Slow motion: a spoon lifts a perfect bite from the açaí bowl – thick violet açaí, a strawberry slice and granola on top, a few granola crumbs fall back. Camera follows the spoon up, shallow depth of field.
+**Szene 5:** ✅ erledigt → `public/serie/folge1/szene5.mp4` (10 s, Kokos 1–3 s, Granola 3,5–5 s, Ton sehr leise → im Mix anheben)
+
+**Szene 6 – Erster Löffel (Bild zu Video, Startbild hochladen):**
+> Use the uploaded image as the first frame. A metal spoon enters from the right, dips into the bowl and lifts a perfect bite in slow motion: thick deep-violet açaí, a strawberry slice and crunchy granola on top, a few granola crumbs fall back into the bowl. Only the hand is visible. The bowl and table stay exactly the same. Camera follows the spoon up slightly, shallow depth of field. Audio: crunchy granola, soft creamy scoop, quiet room, no music, no voice.
 
 ### Schnitt (macht Claude)
 - Clips auf die Stimme schneiden, harte Schnitte auf betonte Wörter („Erdbeere“, „zehn“, „alle“, „Löffel“).

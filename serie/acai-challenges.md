@@ -86,8 +86,10 @@ Länge: ca. 20 Sekunden · 6 Einstellungen · Hook in der ersten Sekunde
 **Szene 4 – Erdbeeren schneiden (Text zu Video, ohne Startbild):**
 > Macro close-up on a dark walnut wooden board: a sharp chef's knife slowly slices a ripe red strawberry with its green top into thin slices, juicy glistening cross-section, a drop of juice runs down. Only the hand holding the knife is visible. Slow motion, camera static. Audio: crisp juicy knife cuts on wood, quiet room, no music, no voice.
 
-**Szene 5 – Toppings:**
-> Slow motion: white coconut flakes snow down onto the strawberry-topped açaí bowl, then golden crunchy granola clusters fall and bounce lightly. Camera static, macro.
+**Szene 4:** ✅ erledigt → `public/serie/folge1/szene4.mp4` (10 s, erste Scheibe fällt bei ca. 3 s, Schnittgeräusche ab 1,4 s)
+
+**Szene 5 – Toppings (Bild zu Video, Startbild hochladen):**
+> Use the uploaded image as the first frame. Slow motion: a few more white coconut flakes snow down onto the bowl from above, then a small handful of golden crunchy granola clusters falls onto the granola area and bounces lightly. The bowl, the strawberries and the table stay exactly the same. Camera slowly pushes in, macro. Audio: soft rustling flakes, light crunchy granola landing, quiet room, no music, no voice.
 
 **Szene 6 – Erster Löffel:**
 > Slow motion: a spoon lifts a perfect bite from the açaí bowl – thick violet açaí, a strawberry slice and granola on top, a few granola crumbs fall back. Camera follows the spoon up, shallow depth of field.

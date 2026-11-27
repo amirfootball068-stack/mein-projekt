@@ -7,7 +7,7 @@ import ZS from "./zeitstempel.json";
 
 /**
  * GTA-Account · Video 2: „Jason & Lucia – was steckt hinter ihrer Beziehung?“
- * Konzept: serie/gta6-video2.md · Bilder: eigene KI-Stimmungsbilder (Silhouetten, keine Rockstar-Figuren) · Gaming-Doku-Look
+ * Konzept: serie/gta6-video2.md · Bilder: offizielle Rockstar-Screenshots (rockstargames.com/VI) · Gaming-Doku-Look
  */
 
 const Z = ZS as Zeitstempel;
@@ -27,7 +27,8 @@ type Szene = {
   klein?: string; // kleine Zeile unter dem Titel
   farbe?: string;
   glitch?: boolean;
-  pos?: [number, number]; // horizontaler Bildausschnitt in % (Anfang, Ende) – Querformat-Bilder
+  fx?: [number, number]; // Fokuspunkt im Bild (0..1), Anfang/Ende – landet in der Bildmitte
+  fy?: number; // Fokuspunkt vertikal (0..1) – landet bei FOKUS_Y
 };
 
 const B = (n: string) => `gta/video2/${n}`;
@@ -36,41 +37,48 @@ const pruefen = <T extends {von: number}>(l: T[]): T[] => {
   return l;
 };
 
+// Querformat-Bilder: Fokuspunkt (Gesicht) landet mittig zwischen Titel und Untertitel
+const FOKUS_Y = 830;
+const BILD_SEITE: Record<string, number> = {"r_bank.jpg": 2576 / 1357, "r_lucia.jpg": 2576 / 1344, "r_motorrad.jpg": 2576 / 1348, "r_zaun.jpg": 2576 / 1420, "r_sumpf.jpg": 2576 / 1431};
+
 const SZENEN: Szene[] = pruefen([
-  {von: 0, bild: B("s1_strasse.jpg"), zoom: [1.05, 1.15], ursprung: ["50% 55%", "50% 50%"], titel: "DAS GEFÄHRLICHSTE PAAR", klein: "IN LEONIDA?", farbe: PINK, glitch: true},
-  {von: wort("Lucia Caminos"), bild: B("s2_gefaengnis.jpg"), zoom: [1.0, 1.1], ursprung: ["70% 60%", "65% 55%"], titel: "LUCIA CAMINOS", klein: "KÄMPFT, SEIT SIE LAUFEN KANN", farbe: TUERKIS},
-  {von: wort("Sie hat für"), bild: B("s2_gefaengnis.jpg"), zoom: [1.5, 1.7], ursprung: ["30% 45%", "35% 40%"], titel: "GEFÄNGNIS", titelBei: wort("Gefängnis"), klein: "RAUS DURCH PURES GLÜCK", farbe: PINK},
-  {von: wort("Jason Duval"), bild: B("s3_boot.jpg"), pos: [80, 72], zoom: [1.0, 1.08], ursprung: ["50% 50%", "50% 50%"], titel: "JASON DUVAL", klein: "AUFGEWACHSEN UNTER GAUNERN", farbe: TUERKIS},
-  {von: wort("Gelandet"), bild: B("s3_boot.jpg"), pos: [50, 54], zoom: [1.4, 1.6], ursprung: ["50% 70%", "50% 75%"], titel: "EX-SOLDAT", klein: "HANDLANGER IN DEN KEYS"},
-  {von: wort("Zwei Menschen"), bild: B("s1_strasse.jpg"), zoom: [1.6, 1.75], ursprung: ["50% 45%", "50% 42%"], titel: "DAS SPIEL IST", klein: "GEGEN SIE GEZINKT", farbe: PINK},
-  {von: wort("Dann geht"), bild: B("s4_auto.jpg"), zoom: [1.0, 1.1], ursprung: ["50% 55%", "50% 50%"], titel: "EIN LEICHTER COUP …", glitch: true},
-  {von: wort("schief") - 0.02, bild: B("s4_auto.jpg"), zoom: [2.0, 2.2], ursprung: ["50% 37%", "50% 37%"], titel: "… GEHT SCHIEF.", farbe: PINK, glitch: true},
-  {von: wort("Verschwörung"), bild: B("s5_pinnwand.jpg"), zoom: [1.0, 1.15], ursprung: ["45% 40%", "45% 45%"], titel: "VERSCHWÖRUNG", klein: "QUER DURCH LEONIDA", farbe: PINK},
-  {von: wort("Ihre einzige"), bild: B("s6_sunset.jpg"), zoom: [1.5, 1.6], ursprung: ["50% 50%", "50% 50%"], titel: "VERTRAUEN", klein: "= ÜBERLEBEN", farbe: TUERKIS},
-  {von: wort("Aber in"), bild: B("s1_strasse.jpg"), zoom: [2.0, 2.2], ursprung: ["50% 40%", "50% 38%"], titel: "VERRAT?", titelBei: wort("Verrat"), farbe: PINK, glitch: true},
-  {von: wort("Du hast"), bild: B("s6_sunset.jpg"), zoom: [1.0, 1.1], ursprung: ["50% 60%", "50% 55%"], titel: "VERTRAUEN ODER VERRAT?", klein: "OHNE SPOILER ↓", farbe: PINK},
+  {von: 0, bild: B("r_bank.jpg"), fx: [0.4, 0.55], fy: 0.1, zoom: [0.9, 0.98], ursprung: ["", ""], titel: "DAS GEFÄHRLICHSTE PAAR", klein: "IN LEONIDA?", farbe: PINK, glitch: true},
+  {von: wort("Lucia Caminos"), bild: B("r_lucia.jpg"), fx: [0.79, 0.78], fy: 0.27, zoom: [1.0, 1.1], ursprung: ["", ""], titel: "LUCIA CAMINOS", klein: "KÄMPFT, SEIT SIE LAUFEN KANN", farbe: TUERKIS},
+  {von: wort("Sie hat für"), bild: B("r_lucia.jpg"), fx: [0.77, 0.77], fy: 0.2, zoom: [1.15, 1.25], ursprung: ["", ""], titel: "GEFÄNGNIS", titelBei: wort("Gefängnis"), klein: "RAUS DURCH PURES GLÜCK", farbe: PINK},
+  {von: wort("Jason Duval"), bild: B("r_motorrad.jpg"), fx: [0.68, 0.7], fy: 0.14, zoom: [0.95, 1.05], ursprung: ["", ""], titel: "JASON DUVAL", klein: "AUFGEWACHSEN UNTER GAUNERN", farbe: TUERKIS},
+  {von: wort("Gelandet"), bild: B("r_motorrad.jpg"), fx: [0.62, 0.68], fy: 0.3, zoom: [1.3, 1.4], ursprung: ["", ""], titel: "EX-SOLDAT", klein: "HANDLANGER IN DEN KEYS"},
+  {von: wort("Zwei Menschen"), bild: B("r_bank.jpg"), fx: [0.6, 0.55], fy: 0.28, zoom: [1.0, 1.06], ursprung: ["", ""], titel: "DAS SPIEL IST", klein: "GEGEN SIE GEZINKT", farbe: PINK},
+  {von: wort("Dann geht"), bild: B("r_bank.jpg"), fx: [0.3, 0.32], fy: 0.13, zoom: [1.05, 1.15], ursprung: ["", ""], titel: "EIN LEICHTER COUP …", glitch: true},
+  {von: wort("schief") - 0.02, bild: B("r_zaun.jpg"), fx: [0.55, 0.55], fy: 0.42, zoom: [1.0, 1.1], ursprung: ["", ""], titel: "… GEHT SCHIEF.", farbe: PINK, glitch: true},
+  {von: wort("Verschwörung"), bild: B("r_zaun.jpg"), fx: [0.22, 0.3], fy: 0.4, zoom: [0.95, 1.0], ursprung: ["", ""], titel: "VERSCHWÖRUNG", klein: "QUER DURCH LEONIDA", farbe: PINK},
+  {von: wort("Ihre einzige"), bild: B("r_sumpf.jpg"), fx: [0.49, 0.5], fy: 0.2, zoom: [1.05, 1.15], ursprung: ["", ""], titel: "VERTRAUEN", klein: "= ÜBERLEBEN", farbe: TUERKIS},
+  {von: wort("Aber in"), bild: B("r_lucia.jpg"), fx: [0.5, 0.68], fy: 0.38, zoom: [0.95, 1.0], ursprung: ["", ""], titel: "VERRAT?", titelBei: wort("Verrat"), farbe: PINK, glitch: true},
+  {von: wort("Du hast"), bild: B("r_sumpf.jpg"), fx: [0.5, 0.52], fy: 0.15, zoom: [0.8, 0.86], ursprung: ["", ""], titel: "VERTRAUEN ODER VERRAT?", klein: "OHNE SPOILER ↓", farbe: PINK},
 ]);
 
-/** Bild mit langsamer Kamerafahrt (Ken Burns) */
+/** Querformat-Bild im Hochformat: unscharfer Hintergrund + scharfes Bild, Fokuspunkt (Gesicht) in der Mitte */
 const Bild: React.FC<{s: Szene; dauer: number}> = ({s, dauer}) => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
   const t = frame / fps;
   const p = Math.min(1, t / dauer);
   const z = s.zoom[0] + (s.zoom[1] - s.zoom[0]) * p;
-  const [ax, ay] = s.ursprung[0].split(" ").map(parseFloat);
-  const [bx, by] = s.ursprung[1].split(" ").map(parseFloat);
-  const ox = ax + (bx - ax) * p;
-  const oy = ay + (by - ay) * p;
+  const fx = s.fx ? s.fx[0] + (s.fx[1] - s.fx[0]) * p : 0.5;
+  const fy = s.fy ?? 0.4;
+  const seite = BILD_SEITE[s.bild.split("/").pop() ?? ""] ?? 16 / 9;
+  const h = 1920 * z;
+  const w = h * seite;
+  const left = Math.min(0, Math.max(1080 - w, 540 - fx * w));
+  const top = Math.min(1920 * 0.42, Math.max(1920 - h, FOKUS_Y - fy * h));
   // Glitch beim Schnitt: kurzer Versatz + Aufhellen
   const stoss = 1 - Math.min(1, t / 0.12);
   const versatz = stoss * 18 * Math.sin(frame * 7);
   const glitchBalken = s.glitch && zufall(Math.floor(t * 8)) > 0.7;
+  const rand = "linear-gradient(transparent 0%, black 9%, black 91%, transparent 100%)";
   return (
-    <AbsoluteFill style={{overflow: "hidden"}}>
-      <div style={{position: "absolute", inset: 0, transform: `translateX(${versatz}px) scale(${z})`, transformOrigin: `${ox}% ${oy}%`, filter: `brightness(${1 + 0.6 * stoss}) contrast(1.08) saturate(1.1)`}}>
-        <Img src={staticFile(s.bild)} style={{width: "100%", height: "100%", objectFit: "cover", objectPosition: s.pos ? `${s.pos[0] + (s.pos[1] - s.pos[0]) * p}% 50%` : "50% 50%"}} />
-      </div>
+    <AbsoluteFill style={{overflow: "hidden", filter: `brightness(${1 + 0.6 * stoss}) contrast(1.08) saturate(1.1)`, transform: `translateX(${versatz}px)`}}>
+      <Img src={staticFile(s.bild)} style={{position: "absolute", inset: -60, width: 1200, height: 2040, objectFit: "cover", objectPosition: `${fx * 100}% 50%`, filter: "blur(38px) brightness(0.45)"}} />
+      <Img src={staticFile(s.bild)} style={{position: "absolute", left, top, width: w, height: h, WebkitMaskImage: rand, maskImage: rand}} />
       {glitchBalken ? (
         <div style={{position: "absolute", left: 0, right: 0, top: `${zufall(Math.floor(t * 8) + 3) * 90}%`, height: 40 + zufall(Math.floor(t * 8) + 5) * 60, background: `linear-gradient(90deg, ${PINK}55, ${TUERKIS}55)`, mixBlendMode: "screen", transform: `translateX(${(zufall(frame) - 0.5) * 80}px)`}} />
       ) : null}
